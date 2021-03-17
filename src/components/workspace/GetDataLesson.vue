@@ -12,13 +12,13 @@
             <span v-if="teacherName === null">
               Преподаватель
             </span>
-            <span v-else>
-            {{teacherName.firstname}}
+            <span v-else >
+            {{teacherName}}
             </span>
           </button>
-          <ul class="dropdown-menu" v-model="teacherName">
-            <li v-for="teacher in teachers"
-               ><a class="dropdown-item" href="#"  @click="teacherName = teacher">{{teacher.name}}</a></li>
+          <ul class="dropdown-menu">
+            <li v-for="teacher in teachers">
+              <a class="dropdown-item" href="#" @click="teacherName = teacher.firstname">{{teacher.name}}</a></li>
           </ul>
         </div>
 
@@ -36,7 +36,7 @@
           >
             День недели
           </button>
-          <ul class="dropdown-menu " v-model="dateDay">
+          <ul class="dropdown-menu " >
             <li v-for="day in week"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
           </ul>
         </div>
@@ -50,7 +50,7 @@
           >
             {{dateDay.name}}
           </button>
-          <ul class="dropdown-menu" v-model="dateDay">
+          <ul class="dropdown-menu">
             <li v-for="day in week"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
           </ul>
         </div>
@@ -69,13 +69,11 @@
           class="form-control"
           id="whoSaysParo"
           rows="6"
-          v-model="whoSays">{{teacherName}} {{dateDay}} {{lessonTime}}</textarea>
+
+          v-model="kek"><label>{{kek}}</label> </textarea>
       </div>
 
-    <div class="row p-2 ">
-      <div class="col-6  ">
-        s
-      </div>
+    
 <!--      <div class="col-6">-->
 <!--        <label for="parlo" class="form-label"> Уже отвечали</label>-->
 <!--        <textarea-->
@@ -85,11 +83,11 @@
 <!--        ></textarea>-->
 <!--      </div>-->
 
-      <div class="col-6">
-        <label for="tarif" class="form-label">Тариф</label>
-        <textarea class="form-control" id="tarif"
-                  rows="6"
-        ></textarea>
+      <div class="">
+        <label for="tarif" class="form-label" >Тариф</label>
+        <textarea v-model="dataInBdTarif" class="form-control textarea-disabled" id="tarif"
+                  rows="2" disabled>
+                  </textarea>
       </div>
 
     </div>
@@ -106,7 +104,10 @@
         whoSays: '',
         teacherName: null,
         dateDay: null,
-        lessonTime: '',
+        lessonTime: null,
+        kek: 'Kekeke',
+        dataInBdTarif: 'Надя - Alfa 04',
+        parloInThisday: null,
         teachers: ({
           1: {name: 'Надя Каппони', firstname: 'Надя'},
           2: {name: 'Eugenio Marchetti', firstname: 'Эудженио'},
@@ -137,8 +138,16 @@
     methods: {
 
         setData: function () {
-          console.log(this)
+         
         }
+    },
+    computed:{
+      setSaysList: () =>{
+        if(this.dateDay != '' && this.teacherName != null && this.lessonTime != null){
+            this.parloInThisday = this.teacherName + " " + this.dateDay + " " + this.lessonTime
+            console.log(this.parloInThisday);
+        }
+      }
     }
   }
 </script>
@@ -146,5 +155,8 @@
 <style>
   .time-checker{
     width: 30%;
+  }
+  .textarea-disabled{
+    background-color: #f8fcff;
   }
 </style>
