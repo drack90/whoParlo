@@ -60,7 +60,7 @@
           <input type="time" class="form-control px-2" v-model="lessonTime"/>
         </div>
         <!-- button ADD -->
-        <div class="col-3" v-model="parloInThisday">
+        <div class="col-3" >
           <button class="btn btn-danger " type="button"  v-on:click=" parloInThisday = teacherName + ' ' + dateDay.val + ' ' + lessonTime" >Добавить</button>
         </div>
 
@@ -70,13 +70,19 @@
 
 
       <div class="py-2">
-        <label for="whoSaysParo" class="form-label">Список отвечающих</label>
+        <label for="lessonInfo" class="form-label">Данные урока и времени</label>
+        <textarea
+          class="form-control"
+          id="lessonInfo"
+          rows="1"
+          disabled
+          v-model="parloInThisday" ><label>{{parloInThisday}}</label> </textarea>
+
+          <label for="whoSaysParo" class="form-label">кто отвечает</label>
         <textarea
           class="form-control"
           id="whoSaysParo"
-          rows="6"
-
-          v-model="kek" ><label>{{kek}}</label> </textarea>
+          rows="6"><label>  </label> </textarea>
       </div>
 
     
