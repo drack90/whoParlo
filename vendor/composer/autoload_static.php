@@ -31,6 +31,7 @@ class ComposerStaticInit7a863c7db0570fa26ef2274cef172fce
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Medoo\\' => 6,
         ),
         'G' => 
         array (
@@ -75,6 +76,10 @@ class ComposerStaticInit7a863c7db0570fa26ef2274cef172fce
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Medoo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/catfan/medoo/src',
+        ),
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
@@ -93,8 +98,8 @@ class ComposerStaticInit7a863c7db0570fa26ef2274cef172fce
         ),
         'Google\\' => 
         array (
-            0 => __DIR__ . '/..' . '/google/apiclient/src',
-            1 => __DIR__ . '/..' . '/asimlqt/php-google-spreadsheet-client/src/Google',
+            0 => __DIR__ . '/..' . '/asimlqt/php-google-spreadsheet-client/src/Google',
+            1 => __DIR__ . '/..' . '/google/apiclient/src',
         ),
         'Firebase\\JWT\\' => 
         array (
@@ -113,7 +118,6 @@ class ComposerStaticInit7a863c7db0570fa26ef2274cef172fce
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Google_AccessToken_Revoke' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AccessToken_Verify' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AuthHandler_AuthHandlerFactory' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',

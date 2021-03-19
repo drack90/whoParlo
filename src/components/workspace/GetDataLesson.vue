@@ -54,11 +54,17 @@
             <li v-for="day in week"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
           </ul>
         </div>
-
-
       </div>
+      <!-- Time Picker -->
+        <div class="col-3">
+          <input type="time" class="form-control px-2" v-model="lessonTime"/>
+        </div>
+        <!-- button ADD -->
+        <div class="col-3" v-model="parloInThisday">
+          <button class="btn btn-danger " type="button"  v-on:click=" parloInThisday = teacherName + ' ' + dateDay.val + ' ' + lessonTime" >Добавить</button>
+        </div>
 
-        <input type="time" class="form-control px-2 col-3 time-checker" v-model="lessonTime"/>
+        
 
     </div>
 
@@ -70,7 +76,7 @@
           id="whoSaysParo"
           rows="6"
 
-          v-model="kek"><label>{{kek}}</label> </textarea>
+          v-model="kek" ><label>{{kek}}</label> </textarea>
       </div>
 
     
@@ -98,8 +104,8 @@
 <script>
   export default {
     name: "getDataLesson",
-    data: ()=> {
-      return ({
+    data: function () {
+      return {
         value: '',
         whoSays: '',
         teacherName: null,
@@ -133,28 +139,23 @@
           sunday: { name: "Воскресение", val: "Вс"}
 
         })
-      })
+      }
     },
     methods: {
-
-        setData: function () {
-         
-        }
-    },
-    computed:{
-      setSaysList: () =>{
-        if(this.dateDay != '' && this.teacherName != null && this.lessonTime != null){
-            this.parloInThisday = this.teacherName + " " + this.dateDay + " " + this.lessonTime
-            console.log(this.parloInThisday);
-        }
+        
+          setSaysList: function() {
+                      this.parloInThisday = this.teacherName + " " + this.dateDay + " " + this.lessonTime
+                      console.log(this.parloInThisday)
       }
-    }
+        
+     
+    },
   }
 </script>
 
 <style>
   .time-checker{
-    width: 30%;
+    width: 50%;
   }
   .textarea-disabled{
     background-color: #f8fcff;
