@@ -76,13 +76,13 @@
           id="lessonInfo"
           rows="1"
           disabled
-          v-model="parloInThisday" ><label>{{parloInThisday}}</label> </textarea>
+          v-model="parloInThisday"><label>{{parloInThisday}}</label> </textarea>
 
           <label for="whoSaysParo" class="form-label">кто отвечает</label>
         <textarea
           class="form-control"
           id="whoSaysParo"
-          rows="6"><label>  </label> </textarea>
+          rows="6"></textarea>
       </div>
 
     

@@ -1,16 +1,19 @@
 <template>
-<full-page/>
+  <router-view/>
 
 </template>
 
 
 <script>
 
-  import FullPage from "./views/FullPage";
+  // import FullPage from "./views/FullPage";
+  // import adminPanel from "./views/AdminPanel"
+  
   export default {
     components: {
-      FullPage,
-
+      // FullPage,
+      // adminPanel,
+      
     }
   }
 </script>
