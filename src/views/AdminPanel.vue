@@ -1,14 +1,10 @@
 <template>
     <main class="container">
         
-        <navbar/>
         <div class="row p-2 py-4">
-        <p>Lorem ipsum dolor sit, amet consectetur 
-            adipisicing elit. Ea reiciendis non temporibus 
-            atque obcaecati vero quae molestias. Voluptatum 
-            exercitationem nam, illum placeat blanditiis labore
-             perferendis aliquid, earum, officiis voluptatibus 
-             provident?</p>
+        <div class="col-3">
+            <sidebar/>
+        </div>
         </div>
 
     </main>
@@ -17,11 +13,11 @@
 <script>
 
 import Navbar from '../components/app/Navbar';
-
+import Sidebar from '../components/app/SidebarAdmin'
 export default {
     name: 'adminPanel',
         
-    components: {Navbar}
+    components: {Navbar, Sidebar}
 };
 
 </script>
