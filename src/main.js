@@ -11,10 +11,20 @@ import router from '../src/router/index'
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 
+const firebaseConfig = {
+    apiKey: "AIzaSyDQhDNui9HS0cwkZYXg7lxROmbtyiJmLbE",
+    authDomain: "whosayparlo.firebaseapp.com",
+    projectId: "whosayparlo",
+    storageBucket: "whosayparlo.appspot.com",
+    messagingSenderId: "536678387300",
+    appId: "1:536678387300:web:5ca7478f93251ebb60d971"
+};
+
 new Vue({
     App,
     Bootstrap,
     router: router,
     firebase,
+    firebaseConfig,
     render: h => h(App)
 }).$mount('#app')
