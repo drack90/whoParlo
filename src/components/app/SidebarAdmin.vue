@@ -1,17 +1,9 @@
 <template>
+
             <div>
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
-                </li>
-            </ul>
-            </nav>
-        
-        
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          
+          <div class="row">
+                <nav class="col-2 sidebar">
             <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
@@ -86,6 +78,9 @@
             </ul>
           </div>
         </nav>
+          </div>
+        
+      
             </div>
         
       
@@ -94,8 +89,10 @@
 </template>
 
 <script>
+import Navbar from './Navbar.vue'
 
   export default{
+  components: { Navbar },
     name: "Sidebar",
     data: ()=> ({
       flows: ({
@@ -140,12 +137,9 @@ body {
 
 .sidebar {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100; /* Behind the navbar */
+ /* Behind the navbar */
   padding: 0;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  box-shadow: inset -1px 0 0 rgba(48, 41, 41, 0.1);
 }
 
 .sidebar-sticky {
@@ -186,7 +180,7 @@ body {
  * Navbar
  */
 
-.navbar-brand {
+.navbar-brand-admin-panel {
   padding-top: .75rem;
   padding-bottom: .75rem;
   font-size: 1rem;
@@ -194,7 +188,7 @@ body {
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
 }
 
-.navbar .form-control {
+.navbar-admin-panel .form-control {
   padding: .75rem 1rem;
   border-width: 0;
   border-radius: 0;

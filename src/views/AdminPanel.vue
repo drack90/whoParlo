@@ -1,6 +1,6 @@
 <template>
     <main class="container">
-        
+        <navbar/>
         <div class="row p-2 py-4">
         <div class="col-3">
             <sidebar/>
