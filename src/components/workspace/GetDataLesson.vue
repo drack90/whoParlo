@@ -101,9 +101,9 @@
                   rows="2" disabled>
                   </textarea>
       </div>
-
+        {{whosay}}
     </div>
-  </div>
+
 
 </template>
 
@@ -156,6 +156,9 @@
         
      
     },
+    
+   
+
   }
 </script>
 

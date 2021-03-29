@@ -5,6 +5,9 @@
         <div class="col-3">
             <sidebar/>
         </div>
+            <div class="col-9">
+                <router-view/>
+            </div>
         </div>
 
     </main>
