@@ -4,7 +4,7 @@
       <div class="list-group">
         <a href="#"
            class="list-group-item list-group-item-action"
-            v-for="flow in getFlows">{{flow}}</a>
+            v-for="flow in getFlows">{{flow.Name}}</a>
 
       </div>
     </div>
