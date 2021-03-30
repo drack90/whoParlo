@@ -23,12 +23,28 @@
         </div>
 
       </div>
-       <div class="col-md-auto">
+      <div class="col-md-auto">
         <div class="form-group">
-          <label for="exampleInputEmail1">Есть ли уроки</label>
-          <select class="form-control form-control-sm" v-model="goes">
+          <label for="goes">Есть ли уроки</label>
+          <select class="form-control form-control-sm" v-model="goes" id="goes">
             <option value="true">Учатся</option>
             <option value="false">Не учатся</option>
+
+          </select>
+          <small id="emailHelp" class="form-text text-muted">На данный момент</small>
+        </div>
+      </div>
+      <div class="col-md-auto">
+        <div class="form-group">
+          <label for="resetDay">Начало недели</label>
+          <select class="form-control form-control-sm" v-model="numberDay" id="resetDay">
+            <option value="Mo">Пн</option>
+            <option value="Tu">Вт</option>
+            <option value="We">Ср</option>
+            <option value="Th">Чт</option>
+            <option value="Fr">Пт</option>
+            <option value="Sa">Сб</option>
+            <option value="Su">Вс</option>
 
           </select>
           <small id="emailHelp" class="form-text text-muted">На данный момент</small>
@@ -48,6 +64,7 @@
       <th scope="col">Номер потока</th>
       <th scope="col">ID документа</th>
       <th scope="col">учатся</th>
+      <th scope="col">Начало недели</th>
       <th scope="col">
       <input type="checkbox" aria-label="Checkbox for following text input">
       </th>
@@ -59,6 +76,7 @@
       <td>{{flow.Name}}</td>
       <td>{{flow.IDdoc}}</td>
       <td>{{flow.goes}}</td>
+      <td>{{flow.numberDay}}</td>
       <td>
       <input  class="form-check-input" 
               type="checkbox" 
@@ -92,8 +110,7 @@ import {database} from '../../require/firebase'
         flowName: '',
         docNum: '',
         goes: '',
-       
-
+        numberDay: '',
       }
     },
     computed: mapGetters(["getFlows"]),
@@ -117,10 +134,11 @@ import {database} from '../../require/firebase'
            db.set({
               IDdoc: this.docNum,
               Name: this.flowName,
-              goes: this.goes
+              goes: this.goes,
+              numberDay: this.numberDay
            });
 
-           
+
       }
     }
 

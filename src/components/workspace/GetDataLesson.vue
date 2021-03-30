@@ -3,7 +3,8 @@
     <div class="row">
       <div class="btn-group col-3">
 
-
+          <!-- выбор учителя переделать с инпута на 
+          выпадающий список что бы не было так уебищьно -->
         <div >
           <button type="button" class="btn btn-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
@@ -24,7 +25,8 @@
 
 
       </div>
-<!--        Выбор дня недели-->
+<!--        Выбор дня недели--> 
+<!-- передлать из кнопки на выпадающий список что бы не было так уебищьно -->
       <div class="btn-group px-2 col-3">
 
         <div v-if="dateDay === null">
