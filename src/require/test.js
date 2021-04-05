@@ -1,4 +1,4 @@
-import {db, database, lessons, users} from "./firebase";
+import { db, database, lessons, users } from "./firebase";
 
 // lessons.add({
 //   id: 1,
@@ -18,8 +18,20 @@ import {db, database, lessons, users} from "./firebase";
 
 
 //работает
-let dataFromDB =  database.ref('flows');
-dataFromDB.on('value', (snapshot) => {
-   dataFromDB = snapshot.val()});
-setTimeout(()=>console.log(dataFromDB), 2000);
-setTimeout(()=>console.log(dataFromDB['Поток 15']), 3000);
+// let dataFromDB = database.ref('flows');
+// dataFromDB.on('value', (snapshot) => {
+//     dataFromDB = snapshot.val()
+// });
+// setTimeout(() => console.log(dataFromDB), 2000);
+// setTimeout(() => console.log(dataFromDB['Поток 15']), 3000);
+
+let getLessons = lessons.doc('lessons');
+getLessons.get().then((lesson) => {
+    if (lesson.exists) {
+        console.log("My lwssons:" + lesson.data());
+    } else {
+        console.log('No such document!');
+    }
+}).catch((error) => {
+    console.log("Error hetting document:", error);
+})

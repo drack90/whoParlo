@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import '../../require/firebaseCode'
   export default {
     name: 'statistic',
 

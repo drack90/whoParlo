@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import '../../require/test'
   export default {
     name: "getDataLesson",
     data: function () {

@@ -146,3 +146,8 @@ import {database} from '../../require/firebase'
 
   }
 </script>
+<style lang="scss">
+select.form-control-sm {
+    -webkit-appearance: menulist;
+}
+</style>
