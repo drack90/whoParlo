@@ -6,24 +6,31 @@ export default {
     },
 
     actions: {
+        //read data from firecloud DB in JSON format
         async bonusFetch(ctx) {
             let getBonus = await database.ref('bonus');
 
             await getBonus.once('value', (snapshot) => {
                 getBonus = snapshot.val()
             });
-            //dataFromDB = JSON.parse(dataFromDB);
-            setTimeout(() => console.log(getBonus), 2000);
-
-
+            //get mitation 'updateBonus':name mutation 'getBonus':data
             await ctx.commit('updateBonus', getBonus)
+        },
+        //call mutation before this mounted
+        getStateBonus(ctx) {
+            ctx.commit('logStudentBonus')
         }
 
     },
     mutations: {
         updateBonus(state, bonusStudent) {
             state.bonusStudent = bonusStudent
+        },
+        //get log before call actions
+        logStudentBonus(state) {
+            console.log(state.bonusStudent);
         }
+
     },
     modules: {},
     getters: {

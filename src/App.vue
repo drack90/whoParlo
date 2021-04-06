@@ -8,12 +8,10 @@
 
   // import FullPage from "./views/FullPage";
   // import adminPanel from "./views/AdminPanel"
-    
   export default {
     components: {
       // FullPage,
       // adminPanel,
-      
     }
   }
 </script>

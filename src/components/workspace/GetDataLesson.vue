@@ -103,7 +103,7 @@
                   rows="2" disabled>
                   </textarea>
       </div>
-        {{whosay}}
+        
     </div>
 
 

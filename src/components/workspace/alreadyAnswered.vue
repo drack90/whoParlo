@@ -13,7 +13,7 @@
     </div>
     <div class="col-3"><a href="#" class="btn btn-primary">добавить поток</a></div>
   </div>
- 
+    
   </div>
 </template>
 
