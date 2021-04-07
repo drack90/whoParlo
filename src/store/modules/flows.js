@@ -7,14 +7,11 @@ export default {
 
     actions: {
         async flowsFetch(ctx) {
-            let dataFromDB = await database.ref('flows');
+            let dataFromDB = await database.ref('flows').orderByChild('id');
 
             await dataFromDB.once('value', (snapshot) => {
                 dataFromDB = snapshot.val()
             });
-            //dataFromDB = JSON.parse(dataFromDB);
-            setTimeout(() => console.log(dataFromDB), 2000);
-
 
             await ctx.commit('updateFlows', dataFromDB)
         }
@@ -23,8 +20,15 @@ export default {
     mutations: {
         updateFlows(state, flows) {
             state.flows = flows
-        }
+        },
+        sortFlows(state, flows) {
+
+            return flows
+
+        },
     },
+
+
     modules: {},
     getters: {
         getFlows(state) {
