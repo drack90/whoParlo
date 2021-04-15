@@ -13,19 +13,23 @@ export default {
                 dataFromDB = snapshot.val()
             });
 
-            await ctx.commit('updateFlows', dataFromDB)
-        }
+
+            //передаем массивом
+            await ctx.commit('updateFlows', Object.values(dataFromDB))
+        },
+
+
 
     },
     mutations: {
         updateFlows(state, flows) {
+            //сортировка массива по величине id
+           flows.sort(function (a, b) {
+                return a.id - b.id;
+            });
             state.flows = flows
         },
-        sortFlows(state, flows) {
 
-            return flows
-
-        },
     },
 
 
@@ -35,5 +39,4 @@ export default {
             return state.flows
         }
     },
-    modules: {}
 }

@@ -43,6 +43,12 @@ const routes = [{
           component: () =>
             import('../components/workspace/statistic')
         },
+          {
+              path: '/studyTariff',
+              name: 'studyTariff',
+              component: () =>
+                  import('../components/workspace/studyTariff')
+          },
       ]
     },
 

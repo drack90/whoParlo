@@ -30,6 +30,12 @@
                   Статистика уроков
                 </router-link>
               </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="studyTariff">
+                  <img src="/img/icons/assessment-24px.svg">
+                  Ученики и тарифы
+                </router-link>
+              </li>
 
             </ul>
           </div>

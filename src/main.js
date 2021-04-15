@@ -6,8 +6,6 @@ import store from './store'
 
 
 
-
-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import router from '../src/router/index'
