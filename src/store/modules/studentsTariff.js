@@ -12,13 +12,13 @@ export default {
             await studentsTariff.once('value', (snapshot) => {
                 studentsTariff = snapshot.val()
             });
-            await ctx.commit('updateStudentsTarrif', studentsTariff)
+            await ctx.commit('updateStudentsTarif', studentsTariff)
 
         }
     },
 
     mutations:{
-        updateStudentsTarrif(state, studentsTariff){
+        updateStudentsTarif(state, studentsTariff){
             state.studentsTariff = studentsTariff;
         }
     },
