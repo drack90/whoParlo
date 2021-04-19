@@ -16,7 +16,7 @@ export default {
   components: {SetStudyTariff},
   computed: mapGetters(['getStudentsTariff']),
     async mounted(){
-      await this.$store.dispatch('studentTariffFetch')
+     // await this.$store.dispatch('studentTariffFetch')
     }
 }
 </script>
