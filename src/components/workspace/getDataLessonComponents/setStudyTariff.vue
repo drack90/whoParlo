@@ -1,6 +1,6 @@
 <template>
 <div>
-  <select class="form-select" name="flow" id="flow" v-model="flow" >
+  <select class="form-select" name="flow" id="flow">
     <option value="flow.id" v-for="flow in getFlows">{{flow.IDdoc}}</option>
 
 
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 export default{
   name: "setStudyTariff",
   // data(){
@@ -21,7 +21,9 @@ export default{
   method:{
 
   },
-  computed: mapGetters[("getFlows")], //получаем перечень потоков.
+  computed: {
+    ...mapGetters("getFlows"),
+  }, //получаем перечень потоков.
  async mounted(){
     await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
   }
