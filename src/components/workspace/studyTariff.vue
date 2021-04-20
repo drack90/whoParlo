@@ -7,7 +7,7 @@
 
 
     </select>
-    <a href="#" class="btn btn-primary">Обновить</a>
+    <a href="#" class="btn btn-primary" @click.prevent="getStudentTariffInServer">Обновить</a>
   </div>
   <p v-for="data in getStudentsTariff">{{data}}</p>
 </div>
@@ -22,6 +22,7 @@ export default {
   data(){
     return{
       selectFlow: null,
+      studentlist: [],
     }
 },
   //components: {SetStudyTariff},
@@ -32,8 +33,24 @@ export default {
     },
   methods:{
     //создаем функцию которая будет вытягивать данные из таблички.
-    getStudentTariffInServer: function (){
+    getStudentTariffInServer: async function (){
       if (this.selectFlow != null){
+        let url = `http://whishbot.ru/magnitalia/php/getflowdata.php?listid=${this.selectFlow}`;
+        fetch(url,{
+          methods: 'GET',
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'request-no-cors'
+
+          }
+        }).then(response=>response.json())
+            .then(response => (this.studentlist = response)).then(this.selectFlow = '')
+            .then(console.log(this.studentlist))
+
+      }else{
+        console.log('')
       }
 
     }
