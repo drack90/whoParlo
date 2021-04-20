@@ -35,19 +35,19 @@ export default {
     //создаем функцию которая будет вытягивать данные из таблички.
     getStudentTariffInServer: async function (){
       if (this.selectFlow != null){
-        let url = `http://whishbot.ru/magnitalia/php/getflowdata.php?listid=${this.selectFlow}`;
-        fetch(url,{
-          methods: 'GET',
-          mode: 'cors',
-          cache: 'no-cache',
-          credentials: 'same-origin',
-          headers: {
-            'Content-Type': 'request-no-cors'
-
+        let url = `http://whishbot.ru/php/getflowdata.php?listid=${this.selectFlow}`;
+        console.log(url)
+       let response = await fetch(url,{
+          mode: 'no-cors'
+        })
+          if(response.ok){
+            let json = await response.json();
+            this.studentlist = await json;
+          }else{
+            console.log("ошибка Http: " + response.status)
+            console.log(response)
           }
-        }).then(response=>response.json())
-            .then(response => (this.studentlist = response)).then(this.selectFlow = '')
-            .then(console.log(this.studentlist))
+
 
       }else{
         console.log('')
