@@ -32,7 +32,6 @@ export default {
         }
 
     },
-    modules: {},
     getters: {
         getBonus(state) {
             return state.bonusStudent

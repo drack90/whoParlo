@@ -10,6 +10,7 @@
     <a href="#" class="btn btn-primary" @click.prevent="getStudentTariffInServer">Обновить</a>
   </div>
   <p v-for="data in getStudentsTariff">{{data}}</p>
+  <h3>{{studentlist}}</h3>
 </div>
 
 </template>
@@ -34,24 +35,21 @@ export default {
   methods:{
     //создаем функцию которая будет вытягивать данные из таблички.
     getStudentTariffInServer: async function (){
-      if (this.selectFlow != null){
-        let url = `http://whishbot.ru/php/getflowdata.php?listid=${this.selectFlow}`;
+        let url = `https://whishbot.ru/php/getflowdata.php?listid=${this.selectFlow}`;
         console.log(url)
-       let response = await fetch(url,{
-          mode: 'no-cors'
+      let response =  await fetch(url)
+      .then((response) => {
+        return response.json()
         })
-          if(response.ok){
-            let json = await response.json();
-            this.studentlist = await json;
-          }else{
-            console.log("ошибка Http: " + response.status)
-            console.log(response)
-          }
+          .then((data) => {
+            this.studentlist = data
+          })
+
+          setTimeout(console.log(response),2000)
+            
 
 
-      }else{
-        console.log('')
-      }
+
 
     }
   }
