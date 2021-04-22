@@ -2,12 +2,15 @@ import { database } from "../../require/firebase";
 
 export default {
     state:{
-        studentsTariff: []
+        //список студентов по запрошенному потоку
+        studentsTariff: [],
+        selectFlow: [],
+
     },
     actions:{
         //Выгружаем данные для считывания тарифа
         async studentTariffFetch(ctx, flow = null){
-            let studentsTariff
+            let studentsTariff, finallData
 
             if (flow == null)
             {
@@ -16,28 +19,46 @@ export default {
                 studentsTariff = await database.ref('studentsTariff/' + flow);
             }
 
-
             await studentsTariff.once('value', (snapshot) => {
                 studentsTariff = snapshot.val()
             });
+
+
+
             await ctx.commit('updateStudentsTarif', studentsTariff)
 
         },
+
         //переписываем данные в таблицу
-        async writeStudentTariff(ctx, state, flow){
-            let rewriteStudentTariff = state.studentsTariff;
-            database.ref('studentTariff/' + flow).set(rewriteStudentTariff)
+        async writeStudentTariff(ctx, compileData){
+
+           await database.ref('studentTariff/' + compileData[0]).set(compileData[1])
         },
+        //add to state data in var studentList(student name and student tarif)
+        getUpdateStudentTariff(ctx, studentsTariff){
+           ctx.commit('updateStudentsTariff', studentsTariff)
+
+        },
+        //add to state flow number
+        getUpdateSelectFlow(ctx, flow){
+            ctx.commit('updateSelectFlow', flow)
+        }
     },
 
     mutations:{
-        updateStudentsTarif(state, studentsTariff){
+        updateStudentsTariff(state, studentsTariff){
             state.studentsTariff = studentsTariff;
+        },
+        updateSelectFlow(state, flow){
+            state.selectFlow = flow
         }
     },
     getters:{
         getStudentsTariff(state){
             return state.studentsTariff
+        },
+        getSelectFlow(state){
+            return state.selectFlow
         }
     }
 }

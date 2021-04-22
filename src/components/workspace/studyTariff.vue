@@ -16,42 +16,67 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
+import studentsTariff from "../../store/modules/studentsTariff";
 //import SetStudyTariff from "./getDataLessonComponents/setStudyTariff";
 export default {
   name: "studyTariff",
   data(){
     return{
       selectFlow: null,
-      studentlist: [],
+      studentlist: null,
     }
 },
   //components: {SetStudyTariff},
-  computed: mapGetters(['getStudentsTariff', 'getFlows']),
+  computed: mapGetters(['getStudentsTariff', 'getFlows', 'getSelectFlow']),
     async mounted(){
      // await this.$store.dispatch('studentTariffFetch')
-      await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
+  
+        await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
+  
     },
   methods:{
-    //создаем функцию которая будет вытягивать данные из таблички.
+
+
+
+//создаем функцию которая будет вытягивать данные из таблички.
     getStudentTariffInServer: async function (){
         let url = `https://whishbot.ru/php/getflowdata.php?listid=${this.selectFlow}`;
-        console.log(url)
       let response =  await fetch(url)
       .then((response) => {
         return response.json()
-        })
-          .then((data) => {
+      })
+      .then((data) => {
             this.studentlist = data
-          })
+      })
+        .then(
+          (data) =>{
+            let studentListObj = {};
+            this.studentlist.forEach((item, index) =>{
+              studentListObj[item[0]] = item[1]
+            })
+            //TODO Загоняем данные в объект! что бы загонять в БД в JSON правильно - имя было бы ключ, а значение тариф
+            //TODO Удалить все не валидные значения типо "если значение пустые - пропустить) 
+            this.studentlist = studentListObj;
+          }
+        )
+      .then((data) =>{
+        if(this.studentlist != null){
 
-          setTimeout(console.log(response),2000)
-            
+          //собираем все передаваеммые данные в один массив
+          let compileData = [this.selectFlow,
+            this.studentlist]
+          console.log(compileData)
 
-
-
-
-    }
+          this.$store.dispatch("getUpdateSelectFlow", this.selectFlow) //добавляем в стейт выбранный
+          this.$store.dispatch("getUpdateStudentTariff", this.studentlist)
+          this.$store.dispatch("writeStudentTariff", compileData)
+          //mapActions(["getUpdateSelectFlow", this.selectFlow]);
+          //mapActions(["writeStudentTariff"]);
+          console.log('Данные записаны в Базу')
+        }
+      })
+    },
   }
 
 }
