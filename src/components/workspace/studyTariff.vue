@@ -7,24 +7,39 @@
 
 
     </select>
-    <a href="#" class="btn btn-primary" @click.prevent="getStudentTariffInServer">Обновить</a>
+    <div class="py-2">
+      <a href="#" class="btn btn-primary" @click.prevent="getStudentTariffInServer">Обновить</a>
+    </div>
+
   </div>
-  <p v-for="data in getStudentsTariff">{{data}}</p>
-  <h3>{{studentlist}}</h3>
+  <div class="studentsTariff">
+    <ul>
+      <li v-for="(tariff, name) in getStudentsTariff" :key="name">{{name}} - {{tariff}}</li>
+    </ul>
+  </div>
+    <div v-if="studentlist != null" class="alert alert-success p-4 alertBlock" role="alert" >
+      Данные по {{selectFlow}} Сохранены в Базу!
+
+    </div>
+
+
+
 </div>
+
+
 
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
-import studentsTariff from "../../store/modules/studentsTariff";
-//import SetStudyTariff from "./getDataLessonComponents/setStudyTariff";
+import {mapGetters} from 'vuex'
+
 export default {
   name: "studyTariff",
   data(){
     return{
       selectFlow: null,
       studentlist: null,
+      flowName: '',
     }
 },
   //components: {SetStudyTariff},
@@ -32,13 +47,10 @@ export default {
     async mounted(){
      // await this.$store.dispatch('studentTariffFetch')
   
-        await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
+      await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
   
     },
   methods:{
-
-
-
 //создаем функцию которая будет вытягивать данные из таблички.
     getStudentTariffInServer: async function (){
         let url = `https://whishbot.ru/php/getflowdata.php?listid=${this.selectFlow}`;
@@ -53,10 +65,12 @@ export default {
           (data) =>{
             let studentListObj = {};
             this.studentlist.forEach((item, index) =>{
-              studentListObj[item[0]] = item[1]
+              if(item[0] != '' && item[0] != ' '){
+                studentListObj[item[0]] = item[1]
+              }
             })
             //TODO Загоняем данные в объект! что бы загонять в БД в JSON правильно - имя было бы ключ, а значение тариф
-            //TODO Удалить все не валидные значения типо "если значение пустые - пропустить) 
+            //TODO Удалить все не валидные значения типо "если значение пустые - пропустить)
             this.studentlist = studentListObj;
           }
         )
@@ -66,7 +80,6 @@ export default {
           //собираем все передаваеммые данные в один массив
           let compileData = [this.selectFlow,
             this.studentlist]
-          console.log(compileData)
 
           this.$store.dispatch("getUpdateSelectFlow", this.selectFlow) //добавляем в стейт выбранный
           this.$store.dispatch("getUpdateStudentTariff", this.studentlist)
@@ -83,5 +96,23 @@ export default {
 </script>
 
 <style scoped>
-
+.studentsTariff{
+  margin-top: 10px;
+  -webkit-column-width: 200px;
+  -moz-column-width: 200px;
+  column-width: 200px;
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+  -webkit-column-gap: 30px;
+  -moz-column-gap: 30px;
+  column-gap: 30px;
+  -webkit-column-rule: 1px solid #ccc;
+  -moz-column-rule: 1px solid #ccc;
+  column-rule: 1px solid #ccc;
+}
+.alertBlock{
+  position:absolute;
+  bottom:0;
+}
 </style>
