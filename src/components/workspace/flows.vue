@@ -51,7 +51,7 @@
         </div>
       </div>
       <div class="col-md-auto py-2">
-          <a href="#" class="btn btn-success" @click="getDeleteFlow">Добавить</a>
+          <a href="#" class="btn btn-success" @click="addFlow">Добавить</a>
         </div>
   </div>
   <div>
@@ -82,6 +82,7 @@
               type="checkbox" 
               :value="flow.IDdoc" 
               :id="flow.IDdoc"
+              v-model="deleteFlow"
               >      
       </td> 
     </tr>
@@ -120,13 +121,13 @@ import {database} from '../../require/firebase'
     },
 
     methods:{
-      addFlow:function (){
+      deleteFlow:function (){
          
       },
       //функция добавляет новый поток в firebase
       //нужно добавить callback и произвести обновление в списке
       //а ЛУЧШЕ не добавлять в Базу, а добавить в vuex в flows, после чего обновить в базу  
-      getDeleteFlow: function(){
+      addFlow: function(){
 
             let flowNum = this.flowName.replace(/\D/g,'') //убираем все буквы что бы доваить к имени
               
