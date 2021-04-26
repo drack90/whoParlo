@@ -100,7 +100,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import {database} from '../../require/firebase'
+//import {database} from '../../require/firebase'
   export default {
     name: 'flows',
     data(){
@@ -121,23 +121,31 @@ import {database} from '../../require/firebase'
     },
 
     methods:{
-      deleteFlow:function (){
+      deleteFlows:function (){
          
       },
       //функция добавляет новый поток в firebase
       //нужно добавить callback и произвести обновление в списке
       //а ЛУЧШЕ не добавлять в Базу, а добавить в vuex в flows, после чего обновить в базу  
-      addFlow: function(){
+      addFlow: async function(){
 
-            let flowNum = this.flowName.replace(/\D/g,'') //убираем все буквы что бы доваить к имени
-              
-           let db = database.ref('flows/flow'+flowNum)
-           db.set({
-              IDdoc: this.docNum,
-              Name: this.flowName,
-              goes: this.goes,
-              numberDay: this.numberDay
-           });
+             let flowNum = await this.flowName.replace(/\D/g,'') //убираем все буквы что бы доваить к имени
+            //собираем все данные в один объект.
+            let flowData =  {"flowNum": flowNum,
+                                "IDdoc": this.docNum,
+                                "Name": this.flowName,
+                                "goes": this.goes,
+                                "numberDay": this.numberDay,
+                                "id": flowNum};
+
+            await this.$store.dispatch("addFlowInDB", flowData) //добавляем в стейт выбранный
+            await this.$store.dispatch('flowsFetch') //обновляем данные с сервера
+            //обнуляем переменные (чистим инпуты и селекты)
+            this.docNum = '';
+            this.flowName = '';
+            this.goes = '';
+            this.numberDay = '';
+
 
 
       }
