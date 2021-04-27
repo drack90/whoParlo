@@ -1,9 +1,10 @@
 <template>
-<div><h1>Kek</h1>
-  <div>
-
+<div>
+  <h1>Тарифы студентов</h1>
+  <div class="py-3">
+    <label for="flow">Выберите поток</label>
     <select class="form-select" name="flow" id="flow" v-model="selectFlow">
-      <option value="flow.id" v-for="flow in getFlows" :value="flow.IDdoc">{{flow.Name}}</option>
+      <option v-for="flow in getFlows" :value="flow.IDdoc" :key="flow.id">{{flow.Name}}</option>
 
 
     </select>
@@ -17,9 +18,13 @@
       <li v-for="(tariff, name) in getStudentsTariff" :key="name">{{name}} - {{tariff}}</li>
     </ul>
   </div>
-    <div v-if="studentlist != null" class="alert alert-success p-4 alertBlock" role="alert" >
+    <div v-if="studentlist != null" class="toast bg-primary text-white border-0 alertBlock" role="alert" aria-atomic="true" aria-live="assertive">
+      <div class="d-flex">
+        <div class="toast-body">    
       Данные по {{selectFlow}} Сохранены в Базу!
-
+        </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
     </div>
 
 

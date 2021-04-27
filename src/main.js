@@ -3,6 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import store from './store'
+import axios from 'axios'
 
 
 
@@ -20,5 +21,6 @@ new Vue({
     Bootstrap,
     router: router,
     store,
+    axios,
     render: h => h(App)
 }).$mount('#app')

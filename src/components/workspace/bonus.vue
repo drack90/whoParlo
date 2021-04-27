@@ -33,7 +33,7 @@
         <div class="form-group">
           <label for="goes">Поток ответа</label>
           <select class="form-control form-control-sm" v-model="goes" id="goes">
-            <option v-for="flow in getFlows">{{flow.Name}}</option>
+            <option v-for="flow in getFlows" :key="flow.id">{{flow.Name}}</option>
           </select>
           <small id="emailHelp" class="form-text text-muted">в каком будет отвечать</small>
         </div>

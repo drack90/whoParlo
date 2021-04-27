@@ -1,3 +1,4 @@
+import { del } from "vue-demi";
 import { database } from "../../require/firebase";
 
 export default {
@@ -18,7 +19,13 @@ export default {
 
 
         //удаляем потоки из базы данных.
-        async deleteFlows(ctx, state) {
+        async deleteFlows(ctx, delFlows) {
+            delFlows.forEach((val, index, arr) => {
+                const ref = database.ref('flows/flow' + val);
+                ref.remove()
+                console.log("удаленный поток: " + val + " Поток")
+                delete delFlows[index] //удаляем элемент из массива.
+            });
 
         },
 
@@ -30,30 +37,35 @@ export default {
 
 
         //Добавляем поток в базу
-        addFlowInDB(ctx, flowData){
+        addFlowInDB(ctx, flowData) {
             //определяем таблицу для записи
-            const ref = database.ref('flows/flow'+ flowData.flowNum)
-              //добавляем данные в БД
+            const ref = database.ref('flows/flow' + flowData.flowNum)
+                //добавляем данные в БД
             ref.set({
-                IDdoc: flowData.IDdoc,
-                Name: flowData.Name,
-                goes: flowData.goes,
-                numberDay: flowData.numberDay,
-                id: flowData.id
-            })
+                    IDdoc: flowData.IDdoc,
+                    Name: flowData.Name,
+                    goes: flowData.goes,
+                    numberDay: flowData.numberDay,
+                    id: flowData.id
+                })
+                .then(() => {
+                    alert("Поток добавлен")
+                })
+                .catch((error) => {
+                    alert("Произошла ошибка, обратитесь к разработчику")
+                })
 
-             //TODO сделать изменение стейта какого нибудь всплывающего алерта для подтверждения изменения данных
+            //TODO сделать изменение стейта какого нибудь всплывающего алерта для подтверждения изменения данных
             /*реактивно менять переменную в которую передавать значение flowData.Name?
             Тогда как ее будем очищать? Добавить и потом сразу убрать через
             setTimeout?**/
-            const onDataCallback = (data) =>{
-                console.log("data:", data)
-            }
-            //проверяем CallBack функцию.
-            ref.on("value", onDataCallback);
-
-
-
+            // const onDataCallback = (data) => {
+            //         if (data != null) {
+            //             alert("Поток добавлен")
+            //         }
+            //     }
+            //     //проверяем CallBack функцию.
+            // ref.on("value", onDataCallback);     
         }
 
 
@@ -64,7 +76,7 @@ export default {
     mutations: {
         updateFlows(state, flows) {
             //сортировка массива по величине id
-           flows.sort(function (a, b) {
+            flows.sort(function(a, b) {
                 return a.id - b.id;
             });
             state.flows = flows

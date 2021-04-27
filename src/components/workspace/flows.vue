@@ -5,20 +5,24 @@
         <div class="form-group">
           <label for="flowNum">Номер потока</label>
           <input  class="form-control form-control-sm" 
-                  type="text" 
+                  type="text"
+                  required 
                   placeholder="номер потока" 
                   id="flowNum" 
-                  v-model="flowName">
+                  v-model="flowName"
+                  >
         </div>
       </div>
        <div class="col-md-auto">
         <div class="form-group">
-          <label for="docNum">Номер документа в "ПОТОКИ"</label>
+          <label for="docNum" required>Номер документа в "ПОТОКИ"</label>
           <input  class="form-control form-control-sm" 
                   type="text" 
+                  required
                   placeholder="2066501548" 
                   id="docNum" 
-                  v-model="docNum">
+                  v-model="docNum"
+                  >
           <small id="emailHelp" class="form-text text-muted">В адресе #gid=2066501548</small>
         </div>
 
@@ -51,7 +55,7 @@
         </div>
       </div>
       <div class="col-md-auto py-2">
-          <a href="#" class="btn btn-success" @click="addFlow">Добавить</a>
+          <button type="submit" href="#" class="btn btn-success" @click.prevent="addFlow">Добавить</button>
         </div>
   </div>
   <div>
@@ -71,8 +75,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="flow in getFlows">
-      <th scope="row">{{}}</th>
+    <tr v-for="flow in getFlows" :key="flow.id">
+      <th scope="row"></th>
       <td>{{flow.Name}}</td>
       <td>{{flow.IDdoc}}</td>
       <td>{{flow.goes}}</td>
@@ -80,7 +84,7 @@
       <td>
       <input  class="form-check-input" 
               type="checkbox" 
-              :value="flow.IDdoc" 
+              :value="flow.id" 
               :id="flow.IDdoc"
               v-model="deleteFlow"
               >      
@@ -90,7 +94,7 @@
 </table>
     </div>
     <div class="d-flex justify-content-end">
-     <a class="btn btn-danger">Удалить выбранные</a>
+     <a class="btn btn-danger" @click="deleteFlows">Удалить выбранные</a>
     </div>
   </div>
 </div>
@@ -110,8 +114,8 @@ import { mapGetters } from 'vuex'
         flowNum: [],
         flowName: '',
         docNum: '',
-        goes: '',
-        numberDay: '',
+        goes: false,
+        numberDay: 'Mo',
       }
     },
     computed: mapGetters(["getFlows"]),
@@ -121,17 +125,29 @@ import { mapGetters } from 'vuex'
     },
 
     methods:{
-      deleteFlows:function (){
-         
+      //удаление потоков
+      deleteFlows: async function (){
+        await this.$store.dispatch('deleteFlows', this.deleteFlow);
+        await this.$store.dispatch('flowsFetch') //обновляем данные с сервера
       },
+      
+
       //функция добавляет новый поток в firebase
       //нужно добавить callback и произвести обновление в списке
-      //а ЛУЧШЕ не добавлять в Базу, а добавить в vuex в flows, после чего обновить в базу  
+      //а ЛУЧШЕ не добавлять в Базу, а добавить в vuex в flows, после чего обновить в базу 
+      
+      //TODO подумать о vuelidate или через функцию с книги рецептов https://ru.vuejs.org/v2/cookbook/form-validation.html
       addFlow: async function(){
 
              let flowNum = await this.flowName.replace(/\D/g,'') //убираем все буквы что бы доваить к имени
             //собираем все данные в один объект.
-            let flowData =  {"flowNum": flowNum,
+
+            if (flowNum == '') {
+              alert("заполните Название потока")
+            }else if (this.docNum == '') {
+              alert("Укажите номер документа в файле потоков")
+            }else{
+               let flowData =  {"flowNum": flowNum,
                                 "IDdoc": this.docNum,
                                 "Name": this.flowName,
                                 "goes": this.goes,
@@ -145,9 +161,8 @@ import { mapGetters } from 'vuex'
             this.flowName = '';
             this.goes = '';
             this.numberDay = '';
-
-
-
+            }
+           
       }
     }
 
