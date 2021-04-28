@@ -47,13 +47,10 @@ export default {
       flowName: '',
     }
 },
-  //components: {SetStudyTariff},
+
   computed: mapGetters(['getStudentsTariff', 'getFlows', 'getSelectFlow']),
-    async mounted(){
-     // await this.$store.dispatch('studentTariffFetch')
-  
+    async mounted(){  
       await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
-  
     },
   methods:{
 //создаем функцию которая будет вытягивать данные из таблички.
@@ -74,8 +71,6 @@ export default {
                 studentListObj[item[0]] = item[1]
               }
             })
-            //TODO Загоняем данные в объект! что бы загонять в БД в JSON правильно - имя было бы ключ, а значение тариф
-            //TODO Удалить все не валидные значения типо "если значение пустые - пропустить)
             this.studentlist = studentListObj;
           }
         )
@@ -93,6 +88,7 @@ export default {
           //mapActions(["writeStudentTariff"]);
           console.log('Данные записаны в Базу')
         }
+        
       })
     },
   }
