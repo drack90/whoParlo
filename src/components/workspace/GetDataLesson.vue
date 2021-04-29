@@ -39,7 +39,7 @@
             День недели
           </button>
           <ul class="dropdown-menu " >
-            <li v-for="day in week"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
+            <li v-for="day in week" :key="day.name"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
           </ul>
         </div>
 

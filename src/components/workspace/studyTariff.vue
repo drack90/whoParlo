@@ -3,7 +3,7 @@
   <h1>Тарифы студентов</h1>
   <div class="py-3">
     <label for="flow">Выберите поток</label>
-    <select class="form-select" name="flow" id="flow" v-model="selectFlow">
+    <select class="custom-select" name="flow" id="flow" v-model="selectFlow">
       <option v-for="flow in getFlows" :value="flow.IDdoc" :key="flow.id">{{flow.Name}}</option>
 
 
@@ -37,7 +37,6 @@
 
 <script>
 import {mapGetters} from 'vuex'
-
 export default {
   name: "studyTariff",
   data(){
@@ -45,6 +44,7 @@ export default {
       selectFlow: null,
       studentlist: null,
       flowName: '',
+      getToast: null,
     }
 },
 
@@ -52,7 +52,22 @@ export default {
     async mounted(){  
       await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
     },
+  updated() {
+        if (this.getToast != null){
+            this.$bvToast.toast("данные записаны в базу",{
+            title: 'Выполнено успешно',
+            variant: 'success',
+            autoHideDelay: 1000,
+            solid: true,
+            toaster: "b-toaster-bottom-right",
+          })
+          this.getToast = null;
+        }          
+        
+  },
   methods:{
+
+    
 //создаем функцию которая будет вытягивать данные из таблички.
     getStudentTariffInServer: async function (){
         let url = `https://whishbot.ru/php/getflowdata.php?listid=${this.selectFlow}`;
@@ -84,9 +99,9 @@ export default {
           this.$store.dispatch("getUpdateSelectFlow", this.selectFlow) //добавляем в стейт выбранный
           this.$store.dispatch("getUpdateStudentTariff", this.studentlist)
           this.$store.dispatch("writeStudentTariff", compileData)
-          //mapActions(["getUpdateSelectFlow", this.selectFlow]);
-          //mapActions(["writeStudentTariff"]);
+          this.getToast = true;
           console.log('Данные записаны в Базу')
+          
         }
         
       })
