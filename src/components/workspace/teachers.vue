@@ -22,7 +22,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="teacher in teachers" :key="teacher.firstName + teacehr.lastName">
+              <tr v-for="teacher in teachers" :key="teacher.firstName + teacher.lastName">
                 <th scope="row"></th>
                 <td>{{teacher.firstName}}</td>
                 <td>{{teacher.lastName}}</td>
