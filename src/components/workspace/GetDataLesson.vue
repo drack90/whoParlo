@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import '../../require/test'
+import {mapGetters} from 'vuex'
   export default {
     name: "getDataLesson",
     data: function () {
@@ -123,20 +123,6 @@ import '../../require/test'
         kek: 'Kekeke',
         dataInBdTarif: 'Надя - Alfa 04',
         parloInThisday: null,
-        teachers: ({
-          1: {name: 'Надя Каппони', firstname: 'Надя'},
-          2: {name: 'Eugenio Marchetti', firstname: 'Эудженио'},
-          3: {name: 'Ольга Уварова', firstname: 'Ольга'},
-          4: {name: 'Татьяна Красильникова', firstname: 'Татьяна'},
-          5: {name: 'Сильвия Паскон', firstname: 'Сильвия П'},
-          6: {name: 'Макки Альберто', firstname: 'Альберто'},
-          7: {name: 'Альдегери Андреа', firstname: 'Андреа' },
-          8: {name: 'Глеб Павло', firstname: 'Паоло'},
-          9: {name: 'Сильвия Ля нотте', firstname: 'Сильвия Н'},
-          10: {name: 'Надежда', firstname: 'Надежда'},
-          11: {name: 'Массимо', firstname: 'Массимо'},
-          12: {name: 'Франческо', firstname: 'Франческо'}
-        }),
 
         week: ({
           monday: { name: "Понедельник", val: "Пн"},
@@ -150,6 +136,16 @@ import '../../require/test'
         })
       }
     },
+    computed: mapGetters(["getFlows", "getTeachers", "getBonus", ]),
+    async mounted() {
+      await this.$store.dispatch('teachersFetch')
+      await this.$store.dispatch('flowsFetch')
+
+
+
+
+    },
+
     methods: {
         
           setSaysList: function() {

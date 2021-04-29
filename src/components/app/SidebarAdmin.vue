@@ -13,6 +13,12 @@
                 </router-link>
               </li>
               <li class="nav-item">
+                <router-link class="nav-link" to="teachers">
+                  <b-icon-person-lines-fill></b-icon-person-lines-fill>
+                  Учителя
+                </router-link>
+              </li>
+              <li class="nav-item">
                 <router-link class="nav-link" to="bonus">
                   <img src="/img/icons/grade-24px.svg">
                   Бонусы
@@ -25,23 +31,19 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="statistic">
-                  <img src="/img/icons/assessment-24px.svg">
-                  Статистика уроков
-                </router-link>
-              </li>
-              <li class="nav-item">
                 <router-link class="nav-link" to="studyTariff">
                   <img src="/img/icons/assessment-24px.svg">
                   Ученики и тарифы
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="teachers">
-                  <b-icon-person-lines-fill></b-icon-person-lines-fill>
-                  Учетиля
+                <router-link class="nav-link" to="statistic">
+                  <img src="/img/icons/assessment-24px.svg">
+                  Статистика уроков
                 </router-link>
               </li>
+
+
 
             </ul>
           </div>
@@ -87,7 +89,6 @@ body {
   position: fixed;
  /* Behind the navbar */
   padding: 0;
-  box-shadow: inset -1px 0 0 rgba(48, 41, 41, 0.1);
 }
 
 .sidebar-sticky {

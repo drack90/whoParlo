@@ -22,16 +22,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="teacher in teachers" :key="teacher.firstName + teacher.lastName">
-                <th scope="row"></th>
+              <tr v-for="teacher in getTeachers" :key="teacher.dispName" >
                 <td>{{teacher.firstName}}</td>
                 <td>{{teacher.lastName}}</td>
                 <td>{{teacher.dispName}}</td>
                 <td>
                 <input  class="form-check-input" 
                         type="checkbox" 
-                        :value="flow.id" 
-                        :id="flow.IDdoc"
+                        :value="teacher.firstName + ' ' + teacher.lastName"
                         v-model="deleteTeachers"
                         >      
                 </td> 
@@ -40,7 +38,7 @@
           </table>
         </div>
         <div class="d-flex justify-content-end">
-        <a class="btn btn-danger" @click="deleteTeacher">Удалить выбранные</a>
+        <a class="btn btn-danger" @click.prevent="deleteTeacher">Удалить выбранные</a>
         </div>
       </div>
     </div>
@@ -48,6 +46,8 @@
 
 
 <script>
+  import {mapGetters} from 'vuex'
+
 export default {
     name: 'teachers',
     data() {
@@ -58,21 +58,29 @@ export default {
             deleteTeachers: [],
         }
     },
+  computed: mapGetters(["getTeachers"]),
 
-    mounted(){
-
+    async mounted(){
+      await this.$store.dispatch('teachersFetch')
     },
     methods: {
         addTeacher: async function() {
-          console.log('====================================');
-          console.log("Teacher Add");
-          console.log('====================================');
+          let newTeacher = {
+            firstName: this.firstName.trim(),
+            lastName: this.lastName.trim(),
+            dispName: this.dispName.trim()
+          }
+          this.$store.dispatch('setTeachersInDB',newTeacher)
+          this.$store.dispatch('teachersFetch')
+          //очищаем переменные
+          this.firstName = '';
+          this.lastName = '';
+          this.dispName = '';
         },
 
         deleteTeacher: async function(){
-          console.log('====================================');
-          console.log("Delete Teacher Func");
-          console.log('====================================');
+          this.$store.dispatch('delTeacher', this.deleteTeachers);
+          this.$store.dispatch('teachersFetch')
         }
 
     }
