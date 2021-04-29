@@ -75,7 +75,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="data in getBonus">
+    <tr v-for="data in getBonus" :key="data.Name">
       <th scope="row">{{}}</th>
       <td>{{data.Flow}}</td>
       <td>{{data.Name}}</td>

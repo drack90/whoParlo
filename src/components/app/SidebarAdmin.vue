@@ -36,6 +36,12 @@
                   Ученики и тарифы
                 </router-link>
               </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="teachers">
+                  <b-icon-person-lines-fill></b-icon-person-lines-fill>
+                  Учетиля
+                </router-link>
+              </li>
 
             </ul>
           </div>
