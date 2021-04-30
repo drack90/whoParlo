@@ -1,33 +1,42 @@
 <template>
   <div class="col-9">
     <div class="row">
-      <div class="btn-group col-3">
+      <div class="col-3">
 
           <!-- выбор учителя переделать с инпута на 
           выпадающий список что бы не было так уебищьно -->
-        <div >
-          <button type="button" class="btn btn-primary dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-          >
-            <span v-if="teacherName === null">
-              Преподаватель
-            </span>
-            <span v-else >
-            {{teacherName}}
-            </span>
-          </button>
-          <ul class="dropdown-menu">
-            <li v-for="teacher in teachers">
-              <a class="dropdown-item" href="#" @click="teacherName = teacher.firstname">{{teacher.name}}</a></li>
-          </ul>
+        <div>
+          <select class="custom-select"
+                  name="teacher" 
+                  v-model="teacherName">
+            <option v-for="teacher in getTeachers" 
+                    :key="teacher.dispName"
+                    :value="teacher">
+                    {{teacher.dispName}}
+            </option>
+          </select>
+          <small for="teacher" class="form-text text-muted">Учитель</small>
         </div>
 
 
       </div>
+
+      <div class="col-3">
+        <select class="custom-select"
+                name="week"
+                v-model="dateDay"
+                >
+        <option v-for="day in week" 
+                :value="day.val"
+                :key="day.val">
+                {{day.name}}
+        </option>
+        </select>
+        <small for="week" class="form-text text-muted">День недели</small>
+      </div>
 <!--        Выбор дня недели--> 
 <!-- передлать из кнопки на выпадающий список что бы не было так уебищьно -->
-      <div class="btn-group px-2 col-3">
+      <!-- <div class="btn-group px-2 col-3">
 
         <div v-if="dateDay === null">
           <button
@@ -39,7 +48,7 @@
             День недели
           </button>
           <ul class="dropdown-menu " >
-            <li v-for="day in week" :key="day.name"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
+            <li v-for="" :key="day.name"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
           </ul>
         </div>
 
@@ -53,17 +62,18 @@
             {{dateDay.name}}
           </button>
           <ul class="dropdown-menu">
-            <li v-for="day in week"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
+            <li v-for=""><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
           </ul>
         </div>
-      </div>
+      </div> -->
       <!-- Time Picker -->
         <div class="col-3">
-          <input type="time" class="form-control px-2" v-model="lessonTime"/>
+          <input type="time" class="form-control px-2" v-model="lessonTime" name="timepicker"/>
+          <small for="timepicker" class="form-text text-muted">Укажите время</small>
         </div>
         <!-- button ADD -->
         <div class="col-3" >
-          <button class="btn btn-danger " type="button"  v-on:click=" parloInThisday = teacherName + ' ' + dateDay.val + ' ' + lessonTime" >Добавить</button>
+          <button class="btn btn-danger " type="button"  v-on:click=" parloInThisday = teacherName.dispName + ' ' + dateDay + ' ' + lessonTime" >Добавить</button>
         </div>
 
         
@@ -78,7 +88,8 @@
           id="lessonInfo"
           rows="1"
           disabled
-          v-model="parloInThisday"><label>{{parloInThisday}}</label> </textarea>
+          v-model="parloInThisday">
+          <label>{{parloInThisday}}</label> </textarea>
 
           <label for="whoSaysParo" class="form-label">кто отвечает</label>
         <textarea
@@ -122,7 +133,12 @@ import {mapGetters} from 'vuex'
         lessonTime: null,
         kek: 'Kekeke',
         dataInBdTarif: 'Надя - Alfa 04',
-        parloInThisday: null,
+        parloInThisday: '',
+        parlo: {
+          teacher: this.teacherName,
+          dateDay: this.dateDay,
+          lessonTime: this.lessonTime
+        },
 
         week: ({
           monday: { name: "Понедельник", val: "Пн"},
@@ -136,15 +152,18 @@ import {mapGetters} from 'vuex'
         })
       }
     },
-    computed: mapGetters(["getFlows", "getTeachers", "getBonus", ]),
-    async mounted() {
-      await this.$store.dispatch('teachersFetch')
-      await this.$store.dispatch('flowsFetch')
-
-
-
-
-    },
+  computed: mapGetters(['getStudentsTariff', 
+                        'getFlows', 
+                        'getSelectFlow', 
+                        'getBonus',
+                        'getTeachers',
+                        ]),    
+    
+  async mounted(){  
+        await this.$store.dispatch('flowsFetch')
+        await this.$store.dispatch('studentTariffFetch') //запрашиваем с сервера обновленные данные.
+        await this.$store.dispatch('teachersFetch')
+      },
 
     methods: {
         
