@@ -49,6 +49,7 @@ export default {
 },
 
   computed: mapGetters(['getStudentsTariff', 'getFlows', 'getSelectFlow']),
+  
     async mounted(){  
       await this.$store.dispatch('flowsFetch') //запрашиваем с сервера обновленные данные.
     },
@@ -77,16 +78,18 @@ export default {
       })
       .then((data) => {
             this.studentlist = data
-      })
-        .then(
+      }).then(
           (data) =>{
             let studentListObj = {};
             this.studentlist.forEach((item, index) =>{
-              if(item[0] != '' && item[0] != ' '){
+              if(item[0] != '' && item[1] != '' && item[1] != null ){
                 studentListObj[item[0]] = item[1]
               }
             })
             this.studentlist = studentListObj;
+            console.log('====================================');
+            console.log(this.studentlist);
+            console.log('====================================');
           }
         )
       .then((data) =>{

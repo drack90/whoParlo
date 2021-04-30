@@ -1,11 +1,8 @@
 <template>
   <div class="col-9">
-    <div class="row">
-      <div class="col-3">
-
-          <!-- выбор учителя переделать с инпута на 
-          выпадающий список что бы не было так уебищьно -->
-        <div>
+    <div class="d-flex">
+      <!-- выбор учителя -->
+      <div class="flex-fill mr-3">
           <select class="custom-select"
                   name="teacher" 
                   v-model="teacherName">
@@ -16,12 +13,9 @@
             </option>
           </select>
           <small for="teacher" class="form-text text-muted">Учитель</small>
-        </div>
-
-
       </div>
-
-      <div class="col-3">
+      <!-- Выбор дня -->
+      <div class="flex-fill mr-3">
         <select class="custom-select"
                 name="week"
                 v-model="dateDay"
@@ -34,45 +28,15 @@
         </select>
         <small for="week" class="form-text text-muted">День недели</small>
       </div>
-<!--        Выбор дня недели--> 
-<!-- передлать из кнопки на выпадающий список что бы не было так уебищьно -->
-      <!-- <div class="btn-group px-2 col-3">
 
-        <div v-if="dateDay === null">
-          <button
-                  type="button"
-                  class="btn btn-success dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-          >
-            День недели
-          </button>
-          <ul class="dropdown-menu " >
-            <li v-for="" :key="day.name"><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
-          </ul>
-        </div>
-
-        <div v-else-if="dateDay != null">
-          <button
-                  type="button"
-                  class="btn dropdown-toggle btn-info "
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-          >
-            {{dateDay.name}}
-          </button>
-          <ul class="dropdown-menu">
-            <li v-for=""><a class="dropdown-item" href="#"  :value="day.val" @click="dateDay = day">{{day.name}}</a></li>
-          </ul>
-        </div>
-      </div> -->
       <!-- Time Picker -->
-        <div class="col-3">
+        <div class="flex-fill mr-3">
           <input type="time" class="form-control px-2" v-model="lessonTime" name="timepicker"/>
           <small for="timepicker" class="form-text text-muted">Укажите время</small>
         </div>
+
         <!-- button ADD -->
-        <div class="col-3" >
+        <div class="flex-fill" >
           <button class="btn btn-danger " type="button"  v-on:click=" parloInThisday = teacherName.dispName + ' ' + dateDay + ' ' + lessonTime" >Добавить</button>
         </div>
 
@@ -81,7 +45,7 @@
     </div>
 
 
-      <div class="py-2">
+      <!-- <div class="py-3">
         <label for="lessonInfo" class="form-label">Данные урока и времени</label>
         <textarea
           class="form-control"
@@ -89,14 +53,39 @@
           rows="1"
           disabled
           v-model="parloInThisday">
-          <label>{{parloInThisday}}</label> </textarea>
-
-          <label for="whoSaysParo" class="form-label">кто отвечает</label>
-        <textarea
-          class="form-control"
+          {{parloInThisday}}</textarea>
+      </div> -->
+      <div class="py-3">
+        <div>
+          <label for="whoSaysParo">Отвечают</label>
+        </div>
+        <div class="d-flex">
+           <textarea
+          class="form-control mr-2"
           id="whoSaysParo"
-          rows="6"></textarea>
+          rows="1"
+          placeholder="Введите имя ученика и нажмите 'добавить' ">
+          </textarea>
+          <button class="btn btn-primary" 
+                  type="submit">
+                    Добавить
+          </button>
+        </div>
+         
       </div>
+      <!-- Отображение списка отвечавших и отвечающих -->
+      <div class="py-3">
+        <textarea class="form-control" 
+          name="lessonData" 
+          id="lessonData" 
+          rows="5" 
+          disabled>
+          {{lastparloData ? lastParloData + '\n' : ''}}
+          {{parloInThisday + `\n`}} 
+          {{kek}}
+        </textarea>
+      </div>
+
 
     
 <!--      <div class="col-6">-->
@@ -107,13 +96,34 @@
 <!--          id="parlo"-->
 <!--        ></textarea>-->
 <!--      </div>-->
-
-      <div class="">
-        <label for="tarif" class="form-label" >Тариф</label>
-        <textarea v-model="dataInBdTarif" class="form-control textarea-disabled" id="tarif"
+      <div class="d-flex">
+        <div class="mr-3 flex-fill">
+        <label for="answer" class="form-label" >Отвечали</label>
+        <textarea v-model="dataInBdTarif" 
+                  class="form-control textarea-disabled" 
+                  id="answer"
                   rows="2" disabled>
                   </textarea>
       </div>
+      <div class="mr-3 flex-fill">
+        <label for="tarif" class="form-label" >Тариф</label>
+        <textarea v-model="dataInBdTarif" 
+                  class="form-control textarea-disabled" 
+                  id="tarif"
+                  rows="2" disabled>
+                  </textarea>
+      </div>
+      <div class="flex-fill">
+        <label for="bonus" class="form-label" >Бонус</label>
+        <textarea v-model="dataInBdTarif" 
+                  class="form-control textarea-disabled" 
+                  id="bonus"
+                  rows="2"
+                  disabled>
+                  </textarea>
+      </div>
+      </div>
+
         
     </div>
 
@@ -139,6 +149,7 @@ import {mapGetters} from 'vuex'
           dateDay: this.dateDay,
           lessonTime: this.lessonTime
         },
+        lastParloData: "kek",
 
         week: ({
           monday: { name: "Понедельник", val: "Пн"},
