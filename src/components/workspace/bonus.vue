@@ -11,7 +11,7 @@
             v-model="flowNum" 
             id="flowNum" 
             aria-label=".form-select-sm example">
-              <option v-for="flow in getFlows">{{flow.Name}}</option>
+              <option v-for="flow in getFlows" :key="flow.IDdoc">{{flow.Name}}</option>
           </select>
           <small class="form-text text-muted">Поток Ученика</small>
 
@@ -19,12 +19,12 @@
       </div>
        <div class="col-md-auto">
         <div class="form-group">
-          <label for="docNum">Имя пользователя</label>
+          <label for="studentName">Имя пользователя</label>
           <input  class="form-control form-control-sm" 
                   type="text" 
                   
-                  id="docNum" 
-                  v-model="docNum">
+                  id="studentName" 
+                  v-model="studentName">
           <small id="emailHelp" class="form-text text-muted">Желательно имя в zoom</small>
         </div>
 
@@ -32,7 +32,7 @@
       <div class="col-md-auto">
         <div class="form-group">
           <label for="goes">Поток ответа</label>
-          <select class="form-control form-control-sm" v-model="goes" id="goes">
+          <select class="form-control form-control-sm" v-model="flowAnswer" id="goes">
             <option v-for="flow in getFlows" :key="flow.id">{{flow.Name}}</option>
           </select>
           <small id="emailHelp" class="form-text text-muted">в каком будет отвечать</small>
@@ -75,22 +75,25 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="data in getBonus" :key="data.Name">
+    <tr v-for="data in getBonus" :key="data.studentName">
       <th scope="row">{{}}</th>
       <td>{{data.Flow}}</td>
-      <td>{{data.Name}}</td>
+      <td>{{data.studentName}}</td>
       <td>{{data.flowAnswer}}</td>
-      <td>{{data.period}}</td>
+      <td>{{data.numberDay}}</td>
       <td>
-         <button type="button" class="btn-close" aria-label="Delete"></button>
-  
+          <input  class="form-check-input" 
+              type="checkbox" 
+              :value="data.studentName" 
+              v-model="delBonus"
+              >   
       </td> 
     </tr>
   </tbody>
 </table>
     </div>
     <div class="d-flex justify-content-end">
-     <a class="btn btn-danger">Удалить выбранные</a>
+     <a class="btn btn-danger" @click.prevent="delbonus">Удалить выбранные</a>
     </div>
   </div>
 </div>
@@ -112,7 +115,10 @@ import {mapGetters} from 'vuex'
           docNum: '',
           goes: '',
           numberDay: '',
-          bonusStudent: ''
+          bonusStudent: '',
+          studentName: '',
+          flowAnswer: '',
+          delBonus: [],
         }
       },
     computed: mapGetters(['getFlows','getBonus']),
@@ -124,7 +130,27 @@ import {mapGetters} from 'vuex'
     },
 
     methods: {
-      bonusSet(){
+      async bonusSet(){
+        let bonusData = {
+          flow: this.flowNum,
+          studentName: this.studentName,
+          flowAnswer: this.flowAnswer,
+          numberDay: this.numberDay
+        }
+        await this.$store.dispatch('bonusSet', bonusData)
+        console.log('====================================');
+        console.log('Бонусный урок добавлен');
+        console.log('====================================');
+        await this.$store.dispatch('bonusFetch')
+
+      },
+
+      async delbonus(){
+        await this.$store.dispatch('delBonus', this.delBonus);
+        await this.$store.dispatch('bonusFetch') //обновляем данные с сервера
+        console.log('====================================');
+        console.log("Ученики удалены");
+        console.log('====================================');
       }
     }
 

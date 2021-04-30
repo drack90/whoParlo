@@ -19,6 +19,20 @@ export default {
         //call mutation before this mounted
         getStateBonus(ctx) {
             ctx.commit('logStudentBonus')
+        },
+
+        async bonusSet(ctx, bonusData) {
+            let ref = await database.ref('bonus/' + bonusData.studentName);
+            await ref.set(bonusData)
+        },
+
+        async delBonus(ctx, delBonus) {
+            delBonus.forEach((val, index, arr) => {
+                const ref = database.ref('bonus/' + val);
+                ref.remove()
+                console.log("Бонус удален: " + val)
+                delete delBonus[index] //удаляем элемент из массива.
+            });
         }
 
     },
