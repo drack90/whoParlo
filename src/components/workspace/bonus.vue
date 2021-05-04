@@ -142,7 +142,9 @@ import {mapGetters} from 'vuex'
         console.log('Бонусный урок добавлен');
         console.log('====================================');
         await this.$store.dispatch('bonusFetch')
-
+          this.flowNum = ''
+          this.flowAnswer = ''
+          this.numberDay = ''
       },
 
       async delbonus(){
