@@ -4,6 +4,7 @@ import { database } from "../../require/firebase";
 export default {
     state: {
         flows: [],
+        pickFlow: '',
     },
 
     actions: {
@@ -66,6 +67,9 @@ export default {
             //     }
             //     //проверяем CallBack функцию.
             // ref.on("value", onDataCallback);     
+        },
+        updatePickFlowsAction(ctx, picFlow){
+            ctx.commit("updatePickFlow", picFlow)
         }
 
 
@@ -81,6 +85,9 @@ export default {
             });
             state.flows = flows
         },
+        updatePickFlow(state, pickFlow){
+            state.pickFlow = pickFlow
+        }
 
 
     },
@@ -90,6 +97,9 @@ export default {
     getters: {
         getFlows(state) {
             return state.flows
+        },
+        getPickFlow(state){
+            return state.pickFlow
         }
     },
 }
