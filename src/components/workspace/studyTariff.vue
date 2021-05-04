@@ -84,6 +84,8 @@ export default {
             this.studentlist.forEach((item, index) =>{
               if(item[0] != '' && item[1] != '' && item[1] != null ){
                 studentListObj[item[0]] = item[1]
+              }else{
+                 console.log("data none read");
               }
             })
             this.studentlist = studentListObj;
