@@ -37,7 +37,7 @@
 
         <!-- button ADD -->
         <div class="flex-fill" >
-          <button class="btn btn-danger " type="button"  v-on:click=" parloInThisday = teacherName.dispName + ' ' + dateDay + ' ' + lessonTime" >Добавить</button>
+          <button class="btn btn-danger " type="button"  @click=" parloInThisday = teacherName.dispName + ' ' + dateDay + ' ' + lessonTime" >Добавить</button>
         </div>
 
         
@@ -60,7 +60,7 @@
           <!-- кнопка Добавить -->
           <button class="btn btn-primary" 
                   type="submit"
-                  @click="filteredList">
+                  >
                     Добавить
           </button>
         </div>
@@ -88,7 +88,8 @@
         <div  class="info-block" 
               id="answer">
               <ul >
-                 <li v-for="answerStudent in filteredList" :key="answerStudent">{{answerStudent}}</li> 
+                <!-- v-for="answerStudent in filteredList" :key="answerStudent" -->
+                 <li ></li> 
               </ul>
                   </div>
       </div>
@@ -109,7 +110,7 @@
       </div>
       </div>
 
-        
+        <button class="btn btn-primary" @click="setcompileData"> add</button>
     </div>
 
 
@@ -137,6 +138,8 @@ import {mapGetters} from 'vuex'
         lastParloData: "kek",
         studentList: [],
         search: '',
+        compileData: [],
+        pickFlow: '',
 
         week: ({
           monday: { name: "Понедельник", val: "Пн"},
@@ -152,18 +155,72 @@ import {mapGetters} from 'vuex'
     },
 
     
-  computed: mapGetters(['getStudentsTariff', 
-                          'getFlows',
-                          'getPickFlow', 
-                          'getSelectFlow', 
-                          'getBonus',
-                          'getTeachers',
-                          'getAllAnswer',
-                          'getAnswerData',
-                          'getAnswerStudent',
-                          'getAnswerStudents']),
+  computed: {
+    getFlows (){
+        return this.$store.getters.getFlows
+    },
+    getStudentsTariff(){
+      return this.$store.getters.getStudentsTariff
+    },
+    getPickFlow(){
+      this.pickFlow = this.$store.getters.getPickFlow
+      this.kek = this.$store.getters.getAllAnswer[this.pickFlow]
+      return this.$store.getters.getPickFlow
+    },
+    getSelectFlow(){
+      return this.$store.getters.getSelectFlow
+    },
+    getBonus(){
+      return this.$store.getters.getBonus
+    },
+    getTeachers(){
+      return this.$store.getters.getTeachers
+    },
+    getAllAnswer(){
+      return this.$store.getters.getAllAnswer
+    },
+    getAnswerData(){
+      return this.$store.getters.getAnswerData
+    },
+    getAnswerStudent(){
+      return this.$store.getters.getAnswerStudent
+    },
+    getAnswerStudents(){
+      return this.$store.getters.getAnswerStudents
+    },
 
+    filteredList() {
+      // return this.getAllAnswer[17].filter(item => {
+      //    return item.toLowerCase().includes(this.search.toLowerCase())
+      //  })
+    },
 
+    getFilteredArr(){
+      if (this.pickFlow) {
+       return compileData = 'kek'
+      }
+        
+      
+    },
+
+  },
+
+ 
+  
+  
+  // mapGetters(['getStudentsTariff', 
+  //                         'getFlows',
+  //                         'getPickFlow', 
+  //                         'getSelectFlow', 
+  //                         'getBonus',
+  //                         'getTeachers',
+  //                         'getAllAnswer',
+  //                         'getAnswerData',
+  //                         'getAnswerStudent',
+  //                         'getAnswerStudents']),
+
+    
+ 
       
           
            
@@ -183,14 +240,14 @@ import {mapGetters} from 'vuex'
                       this.parloInThisday = this.teacherName + " " + this.dateDay + " " + this.lessonTime
                       console.log(this.parloInThisday)
       },
-          filteredList: async function() {
-            
-            let datas = await this.$store.getters.getAllAnswer
-            let pickFlow = await this.$store.getters.getPickFlow
-            setInterval(console.log(datas),2000)
-                   
-                },
-        
+         
+       setcompileData: function(){
+         for (let key in this.getAllAnswer[this.getPickFlow]){
+           for (let name in key){
+             this.compileData.push(this.getAllAnswer[this.getPickFlow][key][name])
+           }
+         }
+       }, 
      
     },
    
