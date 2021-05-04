@@ -41,86 +41,71 @@
         </div>
 
         
+      <!-- Блок ввода поиска -->
 
-    </div>
-
-
-      <!-- <div class="py-3">
-        <label for="lessonInfo" class="form-label">Данные урока и времени</label>
-        <textarea
-          class="form-control"
-          id="lessonInfo"
-          rows="1"
-          disabled
-          v-model="parloInThisday">
-          {{parloInThisday}}</textarea>
-      </div> -->
+    </div>  
       <div class="py-3">
         <div>
           <label for="whoSaysParo">Отвечают</label>
         </div>
         <div class="d-flex">
+          <!-- поле поиска -->
            <textarea
           class="form-control mr-2"
           id="whoSaysParo"
+          v-model="search" 
           rows="1"
           placeholder="Введите имя ученика и нажмите 'добавить' ">
           </textarea>
+          <!-- кнопка Добавить -->
           <button class="btn btn-primary" 
-                  type="submit">
+                  type="submit"
+                  @click="filteredList">
                     Добавить
           </button>
         </div>
          
       </div>
+
       <!-- Отображение списка отвечавших и отвечающих -->
       <div class="py-3">
-        <textarea class="form-control" 
+        <div class="info-block info-block__big" 
           name="lessonData" 
-          id="lessonData" 
-          rows="5" 
-          disabled>
-          {{lastparloData ? lastParloData + '\n' : ''}}
-          {{parloInThisday + `\n`}} 
-          {{kek}}
-        </textarea>
+          id="lessonData">
+          <p v-for="(dateLesson, index) in getAllAnswer[getPickFlow]" :key="index">
+            <b>{{index}}:</b> <br>
+            <span v-for="name in dateLesson" :key="name">{{name}}, </span></p>
+        </div>
       </div>
 
 
     
-<!--      <div class="col-6">-->
-<!--        <label for="parlo" class="form-label"> Уже отвечали</label>-->
-<!--        <textarea-->
-<!--          class="form-control"-->
-<!--          rows="6"-->
-<!--          id="parlo"-->
-<!--        ></textarea>-->
-<!--      </div>-->
+        <!-- Информационный блок колонок -->
+
       <div class="d-flex">
         <div class="mr-3 flex-fill">
         <label for="answer" class="form-label" >Отвечали</label>
-        <textarea v-model="dataInBdTarif" 
-                  class="form-control textarea-disabled" 
-                  id="answer"
-                  rows="2" disabled>
-                  </textarea>
+        <div  class="info-block" 
+              id="answer">
+              <ul >
+                 <li v-for="answerStudent in filteredList" :key="answerStudent">{{answerStudent}}</li> 
+              </ul>
+                  </div>
       </div>
       <div class="mr-3 flex-fill">
         <label for="tarif" class="form-label" >Тариф</label>
-        <textarea v-model="dataInBdTarif" 
-                  class="form-control textarea-disabled" 
-                  id="tarif"
-                  rows="2" disabled>
-                  </textarea>
+        <div  class="info-block" 
+              id="tarif">
+                  </div>
       </div>
       <div class="flex-fill">
         <label for="bonus" class="form-label" >Бонус</label>
-        <textarea v-model="dataInBdTarif" 
-                  class="form-control textarea-disabled" 
-                  id="bonus"
-                  rows="2"
-                  disabled>
-                  </textarea>
+        <div  class="info-block" 
+              id="bonus">
+                  <ul>
+                    <li v-for="student in getBonus" :key="student.studentName">{{student.studentName}}</li>
+                  </ul>
+                  </div>
       </div>
       </div>
 
@@ -142,14 +127,16 @@ import {mapGetters} from 'vuex'
         dateDay: null,
         lessonTime: null,
         kek: 'Kekeke',
-        dataInBdTarif: 'Надя - Alfa 04',
         parloInThisday: '',
         parlo: {
           teacher: this.teacherName,
           dateDay: this.dateDay,
           lessonTime: this.lessonTime
         },
+        allAnswer: '',
         lastParloData: "kek",
+        studentList: [],
+        search: '',
 
         week: ({
           monday: { name: "Понедельник", val: "Пн"},
@@ -163,17 +150,31 @@ import {mapGetters} from 'vuex'
         })
       }
     },
-  computed: mapGetters(['getStudentsTariff', 
-                        'getFlows', 
-                        'getSelectFlow', 
-                        'getBonus',
-                        'getTeachers',
-                        ]),    
+
     
+  computed: mapGetters(['getStudentsTariff', 
+                          'getFlows',
+                          'getPickFlow', 
+                          'getSelectFlow', 
+                          'getBonus',
+                          'getTeachers',
+                          'getAllAnswer',
+                          'getAnswerData',
+                          'getAnswerStudent',
+                          'getAnswerStudents']),
+
+
+      
+          
+           
+
   async mounted(){  
         await this.$store.dispatch('flowsFetch')
         await this.$store.dispatch('studentTariffFetch') //запрашиваем с сервера обновленные данные.
         await this.$store.dispatch('teachersFetch')
+        await this.$store.dispatch('bonusFetch')
+        await this.$store.dispatch('fetchAllAnswer');
+        
       },
 
     methods: {
@@ -181,21 +182,52 @@ import {mapGetters} from 'vuex'
           setSaysList: function() {
                       this.parloInThisday = this.teacherName + " " + this.dateDay + " " + this.lessonTime
                       console.log(this.parloInThisday)
-      }
+      },
+          filteredList: async function() {
+            
+            let datas = await this.$store.getters.getAllAnswer
+            let pickFlow = await this.$store.getters.getPickFlow
+            setInterval(console.log(datas),2000)
+                   
+                },
         
      
     },
+   
     
    
 
   }
 </script>
 
-<style>
-  .time-checker{
+<style lang="scss">
+.time-checker{
     width: 50%;
   }
   .textarea-disabled{
     background-color: #f8fcff;
   }
+  .info-block{
+    min-width: 150px;
+    min-height: 100px;
+    width: 100%;
+    background-color: #e0e0e0;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      ul{
+        li{
+          list-style-type: none;
+        }
+      }
+  }
+  .info-block__big{
+    min-width: 100%;
+    min-height: 200px;
+  }
 </style>
+  
