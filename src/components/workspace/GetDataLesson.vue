@@ -44,30 +44,31 @@
       <!-- Блок ввода поиска -->
 
     </div>  
-      <div class="py-3">
+      <!-- <div class="py-3">
         <div>
           <label for="whoSaysParo">Отвечают</label>
-        </div>
-        <div class="d-flex">
-          <!-- поле поиска -->
-           <textarea
-          class="form-control mr-2"
-          id="whoSaysParo"
-          v-model="search" 
-          rows="1"
-          placeholder="Введите имя ученика и нажмите 'добавить' ">
-          </textarea>
+        </div> -->
+        <!-- поле поиска -->
+        <!-- <div class="d-flex">
+          <textarea
+            class="form-control mr-2"
+            id="whoSaysParo"
+            v-model="search" 
+            rows="1"
+            placeholder="Введите имя ученика и нажмите 'добавить' ">
+          </textarea> -->
           <!-- кнопка Добавить -->
-          <button class="btn btn-primary" 
+          <!-- <button class="btn btn-primary" 
                   type="submit"
                   >
                     Добавить
           </button>
-        </div>
-         
-      </div>
+        </div> 
+      </div>-->
 
-      <!-- Отображение списка отвечавших и отвечающих -->
+      <answer-student :compileData="this.compileData"></answer-student>
+
+      <!-- Отображение списка отвечавших и отвечающих --> 
       <div class="py-3">
         <div class="info-block info-block__big" 
           name="lessonData" 
@@ -117,6 +118,7 @@
 </template>
 
 <script>
+import AnswerStudent from './getDataLessonComponents/answerStudent'
 import {mapGetters} from 'vuex'
   export default {
     name: "getDataLesson",
@@ -164,7 +166,7 @@ import {mapGetters} from 'vuex'
     },
     getPickFlow(){
       this.pickFlow = this.$store.getters.getPickFlow
-      this.kek = this.$store.getters.getAllAnswer[this.pickFlow]
+      this.compileData = this.$store.getters.getAllAnswer[this.pickFlow]
       return this.$store.getters.getPickFlow
     },
     getSelectFlow(){
@@ -194,13 +196,10 @@ import {mapGetters} from 'vuex'
       //    return item.toLowerCase().includes(this.search.toLowerCase())
       //  })
     },
-
-    getFilteredArr(){
-      if (this.pickFlow) {
-       return compileData = 'kek'
-      }
-        
-      
+    compiledData(){
+      // this.pickFlow = this.$store.getters.getPickFlow
+      // this.allAnswer = this.$store.getters.getAllAnswer[this.pickFlow]
+      // return this.compileData = [this.pickFlow, this.allAnswer]
     },
 
   },
@@ -250,6 +249,10 @@ import {mapGetters} from 'vuex'
        }, 
      
     },
+
+    components:{
+      AnswerStudent
+    }
    
     
    
