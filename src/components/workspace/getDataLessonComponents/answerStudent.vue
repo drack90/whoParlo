@@ -20,62 +20,126 @@
                     Добавить
           </button>
 
-        </div>
-
-
-        <!-- TODO: правильный алгоритм перебора входных параметров. 
-                    есть ли смысл поиск проводить по ним? и тот ли компонент я делаю? -->
-        
-        <!-- <div>
-            <ul>
-                <li v-for="data in $attrs.value">
-                    <span><li v-for="name in data">{{name}}
-                        </li></span>{{data}}</li>
-            </ul>
-        </div> -->
-         
+        </div>    
       </div>
+      <div>{{search.name}}</div>
       <ul>
         <li v-for="sayStudent in filteredData" :key="sayStudent">{{sayStudent}}</li>
       </ul>
+      <button class="btn btn-primary" @click="loging">GetLog</button>
 </div>
     
 </template>
 
 <script>
+import Vue from 'vue';
 export default{
     name: 'AnswerStudent',
-    props: ['compileData'],
+    props: {
+      compileData: {
+        type: Object,
+        required: false
+      },
+      flows: String,
+    },
     data(){ 
         return{
             search: [],
             answered: '',
+            test: {
+              0:['kek']
+            },
+            compilingData: () =>{
+                let kek = []
+              for (const group in this.compileData) { 
+              for(const index in this.compileData[group]){
+                kek.push(this.compileData[group][index])
+              }                   
+            }
+           return kek;
+            }
         }
     },
-    
-    computed:{
-      compiledata(){
-        this.search = [] //обнуляем переменную
-        //в массиве 2 уровня - первый: имя преподователя дата и время, второй - ученики. 
-          for (const group in this.$props.compileData) { 
-            for(const index in this.$props.compileData[group]){
-              this.search.push(this.$props.compileData[group][index])
-            }                   
-          }
-      },
-      filteredData() {
-        
-        let self = this.search
-      return this.search.filter(item => {
-        return item.toLowerCase().includes(this.answered.toLowerCase())
-      })
-    },
+    methods:{
+      // conpilingData(){
+      //   let kek = []
+      //       for (const group in this.compileData) { 
+      //        for(const index in this.compileData[group]){
+      //          kek.push(this.compileData[group][index])
+      //        }                   
+      //      }
+      //      return kek;
+      // },
+      loging: function(){
 
-     
         
+        //this.$set(this.search, 'name', this.compilingData())
+        console.log(this.$props);
+      }
+    },
+    mounted(){
+    console.log(this.$props)
+    console.log(this.test);
+
+    },
+    watch: {
+      getData: async function(newgetPickFlow, oldgetPickFlow){
+        if(getPickFlow){
+              this.test = await this.$store.dispatch('fetchAllAnswerArr', getPickFlow);
+              console.log(this.test);
+      }
+      },
+      getFlow(){
+         if(this.$props){
+           console.log(this.$props);
+        this.$set(this.search, 'name', this.compilingData())       
+        }
+      },
+      setFlows(){
+        this.$set(this.$props, compileData, {})
+        this.$set(this.$props, flows, {})
+        console.log(this.$props)
+
+      },
       
     },
-  
+    
+
+    computed:{
+      getSearchData(){
+        if(this.$props.flows != ""){
+        this.$set(this.search, 'name', this.compilingData())       
+        }
+      },
+    getPickFlow(){
+      return this.$store.getters.getPickFlow
+    },
+    logPickFlow(){
+        return console.log(this.getPickFlow)
+    },
+
+
+      
+      // compiledata(){
+      //   this.search = [] //обнуляем переменную
+      //   let conut = 0;
+      //   //в массиве 2 уровня - первый: имя преподователя дата и время, второй - ученики. 
+      //     for (const group in this.compileData) { 
+      //       for(const index in this.compileData[group]){
+      //         this.search.name.push(this.compileData[group][index])
+      //       }                   
+      //     }
+      // },
+      filteredData() {
+        if(this.search.name){
+          return this.search.name.filter(item => {
+          return item.toLowerCase().includes(this.answered.toLowerCase())
+      })
+        }
+        
+        }
+      
+    },
   }
 
 

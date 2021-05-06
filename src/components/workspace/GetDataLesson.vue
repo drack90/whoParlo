@@ -66,7 +66,7 @@
         </div> 
       </div>-->
 
-      <answer-student :compileData="this.compileData"></answer-student>
+      <answer-student :compileData="this.compileData" :flows="this.pickFlow"></answer-student>
 
       <!-- Отображение списка отвечавших и отвечающих --> 
       <div class="py-3">
@@ -140,7 +140,7 @@ import {mapGetters} from 'vuex'
         lastParloData: "kek",
         studentList: [],
         search: '',
-        compileData: [],
+        compileData: {},
         pickFlow: '',
 
         week: ({
@@ -230,7 +230,7 @@ import {mapGetters} from 'vuex'
         await this.$store.dispatch('teachersFetch')
         await this.$store.dispatch('bonusFetch')
         await this.$store.dispatch('fetchAllAnswer');
-        
+        console.log(this.parlo);
       },
 
     methods: {
@@ -241,11 +241,8 @@ import {mapGetters} from 'vuex'
       },
          
        setcompileData: function(){
-         for (let key in this.getAllAnswer[this.getPickFlow]){
-           for (let name in key){
-             this.compileData.push(this.getAllAnswer[this.getPickFlow][key][name])
-           }
-         }
+         
+         console.log(this.compileData);
        }, 
      
     },

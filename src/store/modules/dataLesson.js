@@ -5,7 +5,8 @@ export default {
       allAnswer: [],
       answerData: [],
       answerStudent:[],
-      answerStudents:[]
+      answerStudents:[],
+      asnwerStudentArr:[],
 
     },
     getters: {
@@ -20,6 +21,9 @@ export default {
       },
       getAnswerStudents(state){
         return state.answerStudents
+      },
+      getAnswerStudents(state){
+        return state.answerStudentsArr
       }
     },
 
@@ -30,8 +34,23 @@ export default {
         await ref.once('value', (snapshot) =>{
           allAnswer = snapshot.val()
         })
-        await console.log(allAnswer[17]);
         await ctx.commit('updateAllAnswer', allAnswer)
+      },
+
+      async fetchAllAnswerArr(ctx, pickFlow){
+        let allAnswerArr;
+        let result;
+        let ref = database.ref('answer/' + pickFlow)
+        await ref.once('value', (snapshot) =>{
+          allAnswerArr = snapshot.val()
+        })
+        for (const group in allAnswerArr) { 
+          for(const index in allAnswerArr[group]){
+           // Vue.set(this.search, this.compileData[group][index])
+            this.search.push(allAnswerArr[group][index])
+          }                   
+        }
+        await ctx.commit('updateAllAnswerArr', result)
       },
 
     },
@@ -47,6 +66,9 @@ export default {
       },
       updateAnswerStudents(){
 
+      },
+      updateAnswerStudentsArr(state, allAnswerArr){
+        state.allAnswerArr = allAnswerArr
       },
 
     },

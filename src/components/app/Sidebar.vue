@@ -1,11 +1,6 @@
 <template>
 
     <div class="col-3">
-      <!-- <div class="list-group">
-        <a href="#"
-           class="list-group-item list-group-item-action"
-            v-for="flow in getFlows" :key="flow.id" >{{flow.Name}}</a>
-      </div> -->
       <b-list-group v-model="pickFlow">
         <b-list-group-item v-for="flow in getFlows" 
                            href="#" 
