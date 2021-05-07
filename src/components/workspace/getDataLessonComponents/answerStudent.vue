@@ -22,9 +22,9 @@
 
         </div>    
       </div>
-      <div>{{search.name}}</div>
       <ul>
-        <li v-for="sayStudent in filteredData" :key="sayStudent">{{sayStudent}}</li>
+        {{search.name}}
+        <!-- <li v-for="sayStudent in filteredData" :key="sayStudent">{{sayStudent}}</li> -->
       </ul>
       <button class="btn btn-primary" @click="loging">GetLog</button>
 </div>
@@ -44,10 +44,12 @@ export default{
     },
     data(){ 
         return{
-            search: [],
+            search: {
+              name: '',
+            },
             answered: '',
             test: {
-              0:['kek']
+              kek: ' ',
             },
             compilingData: () =>{
                 let kek = []
@@ -60,20 +62,6 @@ export default{
             }
         }
     },
-
-
-    /**
-     * получается что переменные объявленные в дате по умолчанию не реактивны если в них
-     * нет не каких вложеных параметров. Таким образом, самый простой вариант изменить 
-     * переменные в дате, что бы они инициализировались сразу с параметрами как объекты? 
-     * что то звучит как херня. 
-     *  
-     */
-
-
-
-
-
 
     methods:{
       // conpilingData(){
@@ -88,13 +76,17 @@ export default{
       loging: function(){
 
         
-        //this.$set(this.search, 'name', this.compilingData())
+        this.$set(this.search, 'name', this.compilingData())
         console.log(this.$props);
       }
     },
+    
+    
     mounted(){
-    console.log(this.$props)
+  
     console.log(this.test);
+    console.log(this.$props)
+    console.log(this.search);
 
     },
     watch: {
@@ -104,34 +96,26 @@ export default{
               console.log(this.test);
       }
       },
-      getFlow(){
-         if(this.$props){
-           console.log(this.$props);
-        this.$set(this.search, 'name', this.compilingData())       
-        }
-      },
-      setFlows(){
-        this.$set(this.$props, compileData, {})
-        this.$set(this.$props, flows, {})
-        console.log(this.$props)
+      
+      getSearchData(){
 
       },
-      
     },
     
 
     computed:{
       getSearchData(){
-        if(this.$props.flows != ""){
+        console.log('computed  work');
         this.$set(this.search, 'name', this.compilingData())       
-        }
+        
       },
-    getPickFlow(){
-      return this.$store.getters.getPickFlow
-    },
-    logPickFlow(){
-        return console.log(this.getPickFlow)
-    },
+      getPickFlow(){
+        return this.$store.getters.getPickFlow
+      },
+      logPickFlow(){
+          return console.log(this.getPickFlow)
+      },
+      
 
 
       
@@ -146,11 +130,14 @@ export default{
       //     }
       // },
       filteredData() {
-        if(this.search.name){
-          return this.search.name.filter(item => {
-          return item.toLowerCase().includes(this.answered.toLowerCase())
-      })
-        }
+        
+          let filtereData = this.search.name
+          console.log('==========================');
+          console.log(filteredData);
+          //return filtereData.filter(item => {
+          //return item.toLowerCase().includes(this.answered.toLowerCase())
+      //})
+        
         
         }
       
