@@ -1,84 +1,20 @@
 <template>
-  <div class="col-9">
-    <div class="d-flex">
-      <!-- выбор учителя -->
-      <div class="flex-fill mr-3">
-          <select class="custom-select"
-                  name="teacher" 
-                  v-model="teacherName">
-            <option v-for="teacher in getTeachers" 
-                    :key="teacher.dispName"
-                    :value="teacher">
-                    {{teacher.dispName}}
-            </option>
-          </select>
-          <small for="teacher" class="form-text text-muted">Учитель</small>
-      </div>
-      <!-- Выбор дня -->
-      <div class="flex-fill mr-3">
-        <select class="custom-select"
-                name="week"
-                v-model="dateDay"
-                >
-        <option v-for="day in week" 
-                :value="day.val"
-                :key="day.val">
-                {{day.name}}
-        </option>
-        </select>
-        <small for="week" class="form-text text-muted">День недели</small>
-      </div>
+<div class="col-9">
 
-      <!-- Time Picker -->
-        <div class="flex-fill mr-3">
-          <input type="time" class="form-control px-2" v-model="lessonTime" name="timepicker"/>
-          <small for="timepicker" class="form-text text-muted">Укажите время</small>
-        </div>
 
-        <!-- button ADD -->
-        <div class="flex-fill" >
-          <button class="btn btn-danger " type="button"  @click=" parloInThisday = teacherName.dispName + ' ' + dateDay + ' ' + lessonTime" >Добавить</button>
-        </div>
-
+      <add-lessons-button></add-lessons-button>
         
       <!-- Блок ввода поиска -->
 
-    </div>  
-      <!-- <div class="py-3">
-        <div>
-          <label for="whoSaysParo">Отвечают</label>
-        </div> -->
-        <!-- поле поиска -->
-        <!-- <div class="d-flex">
-          <textarea
-            class="form-control mr-2"
-            id="whoSaysParo"
-            v-model="search" 
-            rows="1"
-            placeholder="Введите имя ученика и нажмите 'добавить' ">
-          </textarea> -->
-          <!-- кнопка Добавить -->
-          <!-- <button class="btn btn-primary" 
-                  type="submit"
-                  >
-                    Добавить
-          </button>
-        </div> 
-      </div>-->
-
+     
+ 
+      <!-- !компонент для ввода отвечающих учеников -->
       <answer-student :compileData="this.compileData" :flows="this.pickFlow"></answer-student>
 
       <!-- Отображение списка отвечавших и отвечающих --> 
-      <div class="py-3">
-        <div class="info-block info-block__big" 
-          name="lessonData" 
-          id="lessonData">
-          <p v-for="(dateLesson, index) in getAllAnswer[getPickFlow]" :key="index">
-            <b>{{index}}:</b> <br>
-            <span v-for="name in dateLesson" :key="name">{{name}}, </span></p>
-        </div>
-      </div>
 
+
+      <answer-list></answer-list>
 
     
         <!-- Информационный блок колонок -->
@@ -112,13 +48,16 @@
       </div>
 
         <button class="btn btn-primary" @click="setcompileData"> add</button>
-    </div>
+</div>
+  
 
 
 </template>
 
 <script>
 import AnswerStudent from './getDataLessonComponents/answerStudent'
+import AnswerList from './getDataLessonComponents/answerList'
+import AddLessonsButton from './getDataLessonComponents/addLessonsButton'
 import {mapGetters} from 'vuex'
   export default {
     name: "getDataLesson",
@@ -126,16 +65,7 @@ import {mapGetters} from 'vuex'
       return {
         value: '',
         whoSays: '',
-        teacherName: null,
-        dateDay: null,
-        lessonTime: null,
         kek: 'Kekeke',
-        parloInThisday: '',
-        parlo: {
-          teacher: this.teacherName,
-          dateDay: this.dateDay,
-          lessonTime: this.lessonTime
-        },
         allAnswer: '',
         lastParloData: "kek",
         studentList: [],
@@ -143,16 +73,7 @@ import {mapGetters} from 'vuex'
         compileData: {},
         pickFlow: '',
 
-        week: ({
-          monday: { name: "Понедельник", val: "Пн"},
-          tuesday: { name: "Вторник", val: "Вт"},
-          wednesday: { name: "Среда", val: "Ср"},
-          thursday: { name: "Четверг", val: "Чт"},
-          friday: { name: "Пятница", val: "Пт"},
-          saturday: { name: "Суббота", val: "Сб"},
-          sunday: { name: "Воскресение", val: "Вс"}
-
-        })
+       
       }
     },
 
@@ -175,9 +96,6 @@ import {mapGetters} from 'vuex'
     getBonus(){
       return this.$store.getters.getBonus
     },
-    getTeachers(){
-      return this.$store.getters.getTeachers
-    },
     getAllAnswer(){
       return this.$store.getters.getAllAnswer
     },
@@ -190,44 +108,11 @@ import {mapGetters} from 'vuex'
     getAnswerStudents(){
       return this.$store.getters.getAnswerStudents
     },
-
-    filteredList() {
-      // return this.getAllAnswer[17].filter(item => {
-      //    return item.toLowerCase().includes(this.search.toLowerCase())
-      //  })
-    },
-    compiledData(){
-      // this.pickFlow = this.$store.getters.getPickFlow
-      // this.allAnswer = this.$store.getters.getAllAnswer[this.pickFlow]
-      // return this.compileData = [this.pickFlow, this.allAnswer]
-    },
-
   },
-
- 
-  
-  
-  // mapGetters(['getStudentsTariff', 
-  //                         'getFlows',
-  //                         'getPickFlow', 
-  //                         'getSelectFlow', 
-  //                         'getBonus',
-  //                         'getTeachers',
-  //                         'getAllAnswer',
-  //                         'getAnswerData',
-  //                         'getAnswerStudent',
-  //                         'getAnswerStudents']),
-
-    
- 
-      
-          
-           
 
   async mounted(){  
         await this.$store.dispatch('flowsFetch')
         await this.$store.dispatch('studentTariffFetch') //запрашиваем с сервера обновленные данные.
-        await this.$store.dispatch('teachersFetch')
         await this.$store.dispatch('bonusFetch')
         await this.$store.dispatch('fetchAllAnswer');
         console.log(this.parlo);
@@ -248,7 +133,9 @@ import {mapGetters} from 'vuex'
     },
 
     components:{
-      AnswerStudent
+      AnswerStudent, AnswerList, AddLessonsButton
+        
+        
     }
    
     

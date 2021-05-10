@@ -1,4 +1,3 @@
-import { del } from "vue-demi";
 import { database } from "../../require/firebase";
 
 export default {
@@ -68,7 +67,7 @@ export default {
             //     //проверяем CallBack функцию.
             // ref.on("value", onDataCallback);     
         },
-        updatePickFlowsAction(ctx, picFlow){
+        updatePickFlowsAction(ctx, picFlow) {
             ctx.commit("updatePickFlow", picFlow)
         }
 
@@ -85,7 +84,7 @@ export default {
             });
             state.flows = flows
         },
-        updatePickFlow(state, pickFlow){
+        updatePickFlow(state, pickFlow) {
             state.pickFlow = pickFlow
         }
 
@@ -98,7 +97,7 @@ export default {
         getFlows(state) {
             return state.flows
         },
-        getPickFlow(state){
+        getPickFlow(state) {
             return state.pickFlow
         }
     },
