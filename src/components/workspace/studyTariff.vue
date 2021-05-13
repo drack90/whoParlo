@@ -68,16 +68,24 @@ export default {
   },
   methods:{
 
-    
+//!Изменились правила доступа на таблицу, так что скрипт теперь не работает    
 //создаем функцию которая будет вытягивать данные из таблички.
     getStudentTariffInServer: async function (){
         let url = `https://whishbot.ru/php/getflowdata.php?listid=${this.selectFlow}`;
       let response =  await fetch(url)
       .then((response) => {
-        return response.json()
+        try {
+            return response.json()
+        } catch (error) {
+            console.log(error);
+        }
       })
       .then((data) => {
-            this.studentlist = data
+        try {
+          this.studentlist = data
+        } catch (error) {
+          console.log(error);
+          }
       }).then(
           (data) =>{
             let studentListObj = {};
