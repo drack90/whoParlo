@@ -22,11 +22,8 @@
 
         </div>    
       </div>
-      <ul>
-        {{search.name}}
-        <!-- <li v-for="sayStudent in filteredData" :key="sayStudent">{{sayStudent}}</li> -->
-      </ul>
-      <button class="btn btn-primary" @click="loging">GetLog</button>
+
+
 </div>
     
 </template>
@@ -44,103 +41,45 @@ export default{
     },
     data(){ 
         return{
-            search: {
-              name: '',
-            },
-            answered: '',
-            test: {
-              kek: ' ',
-            },
-            compilingData: () =>{
-                let kek = []
-              for (const group in this.compileData) { 
-              for(const index in this.compileData[group]){
-                kek.push(this.compileData[group][index])
-              }                   
-            }
-           return kek;
-            }
+          answered: '',
+          formatedAnswers: Array,
+          filteredData: "",          
         }
     },
-
-    methods:{
-      // conpilingData(){
-      //   let kek = []
-      //       for (const group in this.compileData) { 
-      //        for(const index in this.compileData[group]){
-      //          kek.push(this.compileData[group][index])
-      //        }                   
-      //      }
-      //      return kek;
-      // },
-      loging: function(){
-
-        
-        this.$set(this.search, 'name', this.compilingData())
-        console.log(this.$props);
-      }
-    },
-    
-    
-    mounted(){
-  
-    console.log(this.test);
-    console.log(this.$props)
-    console.log(this.search);
-
-    },
     watch: {
-      getData: async function(newgetPickFlow, oldgetPickFlow){
-        if(getPickFlow){
-              this.test = await this.$store.dispatch('fetchAllAnswerArr', getPickFlow);
-              console.log(this.test);
-      }
-      },
-      
-      getSearchData(){
-
+      //следим за изменением пропса, и производим форматирование данных в массив
+        compileData(oldcompileData, newcompileData){
+          let formatedData = [];
+          for (const group in this.compileData) { 
+              for(const index in this.compileData[group]){
+                formatedData.push(this.compileData[group][index])
+              }                   
+            }
+            //присваеваем результат цикла переменной компонента
+            this.formatedAnswers = formatedData
+        },
+        //слудеим за переменной answered которая соединяется с Input
+        //при вводе данных в инпут - фильтруем что бы ввод происходил > 3 символов
+        //после чего отправляем данные в переменную dispAnswered
+        answered(oldanswered, newanswered){
+          if (this.answered.length > 3) {
+            let thisStudentAnswer = this.formatedAnswers.filter(item => {
+              return item.toLowerCase().includes(this.answered.toLowerCase())
+              }) 
+              this.$store.dispatch('updateAnswerStudentsArrAction', thisStudentAnswer)
+          }
+               
       },
     },
-    
 
     computed:{
-      getSearchData(){
-        console.log('computed  work');
-        this.$set(this.search, 'name', this.compilingData())       
-        
-      },
       getPickFlow(){
         return this.$store.getters.getPickFlow
       },
-      logPickFlow(){
-          return console.log(this.getPickFlow)
+      //геттер
+      getAnswerStudentsArr(){
+        return this.$store.getters.getAnswerStudentsArr
       },
-      
-
-
-      
-      // compiledata(){
-      //   this.search = [] //обнуляем переменную
-      //   let conut = 0;
-      //   //в массиве 2 уровня - первый: имя преподователя дата и время, второй - ученики. 
-      //     for (const group in this.compileData) { 
-      //       for(const index in this.compileData[group]){
-      //         this.search.name.push(this.compileData[group][index])
-      //       }                   
-      //     }
-      // },
-      filteredData() {
-        
-          let filtereData = this.search.name
-          console.log('==========================');
-          console.log(filteredData);
-          //return filtereData.filter(item => {
-          //return item.toLowerCase().includes(this.answered.toLowerCase())
-      //})
-        
-        
-        }
-      
     },
   }
 
