@@ -5,11 +5,13 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import PortalVue from 'portal-vue'
 import store from './store'
 import axios from 'axios'
+import JSONEditor from 'jsoneditor'
 
 
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'jsoneditor/dist/jsoneditor.min.css'
 //import Bootstrap from 'bootstrap/dist/js/bootstrap.bundle'
 import router from '../src/router/index'
 
@@ -27,5 +29,6 @@ new Vue({
     router: router,
     store,
     axios,
+    JSONEditor,
     render: h => h(App)
 }).$mount('#app')
