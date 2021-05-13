@@ -9,7 +9,7 @@
      
  
       <!-- !компонент для ввода отвечающих учеников -->
-      <answer-student :compileData="this.compileData" :flows="this.pickFlow"></answer-student>
+      <answer-student :compileData="compileData" :flows="pickFlow"></answer-student>
 
       <!-- Отображение списка отвечавших и отвечающих --> 
 
@@ -76,9 +76,16 @@ import {mapGetters} from 'vuex'
        
       }
     },
-
+  watch:{
+    //следим за изменением данных и обновляем значения переменных
+    getPickFlow(oldgetPickFlow, newgetPickFlow){
+      this.pickFlow = this.$store.getters.getPickFlow
+      this.compileData = this.$store.getters.getAllAnswer[this.pickFlow]
+    }
+  },
     
   computed: {
+
     getFlows (){
         return this.$store.getters.getFlows
     },
@@ -86,8 +93,6 @@ import {mapGetters} from 'vuex'
       return this.$store.getters.getStudentsTariff
     },
     getPickFlow(){
-      this.pickFlow = this.$store.getters.getPickFlow
-      this.compileData = this.$store.getters.getAllAnswer[this.pickFlow]
       return this.$store.getters.getPickFlow
     },
     getSelectFlow(){
@@ -115,27 +120,25 @@ import {mapGetters} from 'vuex'
         await this.$store.dispatch('studentTariffFetch') //запрашиваем с сервера обновленные данные.
         await this.$store.dispatch('bonusFetch')
         await this.$store.dispatch('fetchAllAnswer');
-        console.log(this.parlo);
       },
 
     methods: {
         
-          setSaysList: function() {
-                      this.parloInThisday = this.teacherName + " " + this.dateDay + " " + this.lessonTime
-                      console.log(this.parloInThisday)
+      setSaysList: function() {
+        this.parloInThisday = this.teacherName + " " + this.dateDay + " " + this.lessonTime
+        console.log(this.parloInThisday)
       },
          
-       setcompileData: function(){
-         
-         console.log(this.compileData);
-       }, 
+      setcompileData: function(){
+        console.log(this.compileData);
+      }, 
      
     },
 
     components:{
-      AnswerStudent, AnswerList, AddLessonsButton
-        
-        
+      AnswerStudent, 
+      AnswerList,
+      AddLessonsButton   
     }
    
     
