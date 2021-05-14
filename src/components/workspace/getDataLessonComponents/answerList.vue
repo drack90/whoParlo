@@ -1,6 +1,7 @@
 <template>
 <div>
-				<div class="py-3" v-if="edit">
+  
+      <div class="py-3" v-if="edit">
 					<div class="info-block info-block__big" 
 						name="lessonData"
 						id="lessonData">
@@ -8,13 +9,13 @@
 							<b>{{index}}:</b> <br>
 							<span v-for="name in dateLesson" :key="name">{{name}}, </span></p>
           </div>
+      <div class="d-flex justify-content-between">
           <b-button   class="mt-3 "
                       variant="outline-primary"
                       @click="editJSONMethods">
                       Редактировать
                       </b-button>
-      </div>
-      <div class="py-3" v-show =" edit == false">
+          <div class="py-3" v-show =" edit == false">
               <div id="jsonElditor" style="width: 100%; height: 400px;"></div>
               <b-button   class="mt-3 justify-content-end"
                       variant="success"
@@ -23,6 +24,23 @@
                       Сохранить
                       </b-button>
             </div>
+
+          <div class="py-3" v-show=" pickFlow != ''">
+            <b-button variant="danger"
+                      v-b-modal.refresh-Flow-Modal>
+                      Обновить
+            </b-button>
+              <b-modal id="refresh-Flow-Modal" 
+                        title="Очистить поток"
+                        ok-variant="danger"
+                        @ok="refreshFlowData">
+                <p class="my-4">Вы уверены что хотите очистить список отвечающих?</p>
+              </b-modal>
+          </div>
+      </div>
+
+  </div>
+				
 
 </div>
     
@@ -75,9 +93,6 @@ export default{
             this.editor.set(this.getAllAnswer[this.pickFlow])
             this.edit = !this.edit
           }
-
-          
-          
         },
         //метод позволяет вызвать toast с ошибкой.
         viewToast(message){
@@ -89,8 +104,11 @@ export default{
             solid: true,
             toaster: "b-toaster-bottom-right",
           })
-        }
+        },
 
+        async refreshFlowData(){
+            alert('модальное окно закрыто')
+        }
     },
     watch:{
       //следим за изменениями в переменной vuex и при изменении выводим сообщение

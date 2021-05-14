@@ -1,6 +1,7 @@
 <template>
 <div class="col-9">
-
+      <!-- компонент отображения алерта при совпадении начала недели потока -->
+      <refresh-flow-alert/>
 
       <add-lessons-button></add-lessons-button>
         
@@ -48,6 +49,8 @@
       </div>
 
         <button class="btn btn-primary" @click="setcompileData"> add</button>
+
+        
 </div>
   
 
@@ -58,6 +61,7 @@
 import AnswerStudent from './getDataLessonComponents/answerStudent'
 import AnswerList from './getDataLessonComponents/answerList'
 import AddLessonsButton from './getDataLessonComponents/addLessonsButton'
+import RefreshFlowAlert from './getDataLessonComponents/refreshFlowAlert'
 import {mapGetters} from 'vuex'
   export default {
     name: "getDataLesson",
@@ -73,6 +77,7 @@ import {mapGetters} from 'vuex'
         compileData: {},
         pickFlow: '',
 
+
        
       }
     },
@@ -81,13 +86,36 @@ import {mapGetters} from 'vuex'
     getPickFlow(oldgetPickFlow, newgetPickFlow){
       this.pickFlow = this.$store.getters.getPickFlow
       this.compileData = this.$store.getters.getAllAnswer[this.pickFlow]
+
+      //Определяем дату обновления потока
+      let dateFlow = this.$store.getters.getFlows.filter((item) => {
+         return item.id == this.pickFlow 
+      })
+     
+      let date = new Date(); //получаем сегодняшнюю дату
+      let day = date.getUTCDay() // определяем какой сегодня день
+      let options = { weekday: 'short'}
+      let convertData = new Intl.DateTimeFormat('en-US', options).format(date) ;
+     
+      if(convertData == dateFlow[0].numberDay)
+      {
+        this.showTop = !this.showTop //меняем значение переменной что бы отобразить тост
+      }
+
+      // Mon = понедельник
+      // Tue = вторник
+      // Wed = Среда
+      // Thu = четверг
+      // Fri = пятница
+      // Sat = Суббота
+      // Sun = Воскресение
     }
   },
     
   computed: {
 
     getFlows (){
-        return this.$store.getters.getFlows
+      return this.$store.getters.getFlows
     },
     getStudentsTariff(){
       return this.$store.getters.getStudentsTariff
@@ -138,7 +166,8 @@ import {mapGetters} from 'vuex'
     components:{
       AnswerStudent, 
       AnswerList,
-      AddLessonsButton   
+      AddLessonsButton,
+      RefreshFlowAlert   
     }
    
     
