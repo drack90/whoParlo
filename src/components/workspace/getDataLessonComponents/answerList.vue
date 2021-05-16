@@ -1,10 +1,11 @@
 <template>
 <div>
   
-      <div class="py-3" v-if="edit">
+      <div class="py-3" v-if="edit === true" >
 					<div class="info-block info-block__big" 
 						name="lessonData"
-						id="lessonData">
+						id="lessonData"
+            >
 						<p v-for="(dateLesson, index) in getAllAnswer[pickFlow]" :key="index">
 							<b>{{index}}:</b> <br>
 							<span v-for="name in dateLesson" :key="name">{{name}}, </span></p>
@@ -14,32 +15,35 @@
                       variant="outline-primary"
                       @click="editJSONMethods">
                       Редактировать
-                      </b-button>
-          <div class="py-3" v-show =" edit == false">
+          </b-button>
+           </div>
+
+        </div>
+      
+          <div class="py-3" v-show="edit === false">
               <div id="jsonElditor" style="width: 100%; height: 400px;"></div>
-              <b-button   class="mt-3 justify-content-end"
-                      variant="success"
-                      @click="addDataToBase"
-                      >
+              <b-button class="mt-3 justify-content-end"
+                        variant="success"
+                        @click="addDataToBase"
+                        >
                       Сохранить
                       </b-button>
-            </div>
+          </div>
 
-          <div class="py-3" v-show=" pickFlow != ''">
+          <div class="py-3" v-if=" pickFlow != ''">
             <b-button variant="danger"
                       v-b-modal.refresh-Flow-Modal>
                       Обновить
             </b-button>
-              <b-modal id="refresh-Flow-Modal" 
-                        title="Очистить поток"
-                        ok-variant="danger"
-                        @ok="refreshFlowData">
-                <p class="my-4">Вы уверены что хотите очистить список отвечающих?</p>
-              </b-modal>
+            <!-- модальное окно подтверждения сброса данных в потоке -->
+            <b-modal id="refresh-Flow-Modal" 
+                      title="Очистить поток"
+                      ok-variant="danger"
+                      @ok="refreshFlowData">
+              <p class="my-4">Вы уверены что хотите очистить список отвечающих?</p>
+            </b-modal>
           </div>
-      </div>
-
-  </div>
+     
 				
 
 </div>
