@@ -2,13 +2,14 @@ import { database } from "../../require/firebase";
 
 export default {
     state: {
-        allAnswer: [],
+        allAnswer: [null],
         answerData: [],
         answerStudent: [],
         answerStudents: [],
         answerStudentArr: [], //Данные из массива "кто отвечал"
         updateAnswerStudent: [],
         toast: null,
+        newLesson: null,
 
     },
     getters: {
@@ -32,7 +33,10 @@ export default {
         },
         getUpdateAnswerStudent(state) {
             return state.updateAnswerStudent
-        }
+        },
+        getNewLesson(state) {
+            return state.newLesson
+        },
     },
 
     actions: {
@@ -51,11 +55,13 @@ export default {
             let ref = database.ref('answer/' + pickFlow)
             await ref.once('value', (snapshot) => {
                 allAnswerArr = snapshot.val()
+            }).catch((error) => {
+                console.log(erorr);
             })
             for (const group in allAnswerArr) {
                 for (const index in allAnswerArr[group]) {
                     // Vue.set(this.search, this.compileData[group][index])
-                    this.search.push(allAnswerArr[group][index])
+                    this.result.push(allAnswerArr[group][index])
                 }
             }
             await ctx.commit('updateAllAnswerArr', result)
@@ -86,6 +92,10 @@ export default {
 
         updateAnswerStudentsArrAction(ctx, answeredArr) {
             ctx.commit('updateAnswerStudentsArr', answeredArr)
+        },
+
+        updateNewLesson(ctx, newLesson) {
+            ctx.commit('updateNewLesson', newLesson)
         }
 
     },
@@ -108,6 +118,9 @@ export default {
         updateAnswerStudentsArr(state, allAnswerArr) {
             state.answerStudentArr = allAnswerArr
         },
+        updateNewLesson(state, newLesson) {
+            state.newLesson = newLesson
+        }
 
     },
 

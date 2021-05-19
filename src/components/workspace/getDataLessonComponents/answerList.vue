@@ -8,7 +8,11 @@
             >
 						<p v-for="(dateLesson, index) in getAllAnswer[pickFlow]" :key="index">
 							<b>{{index}}:</b> <br>
-							<span v-for="name in dateLesson" :key="name">{{name}}, </span></p>
+							<span v-for="name in dateLesson" :key="name">{{name}}, </span>
+            </p>
+            <p>
+              <b v-if="newLesson">{{newLesson}}</b>
+            </p>
           </div>
       <div class="d-flex justify-content-between">
           <b-button   class="mt-3 "
@@ -16,7 +20,15 @@
                       @click="editJSONMethods">
                       Редактировать
           </b-button>
+
+          <div class="py-3" v-if=" pickFlow != ''">
+            <b-button variant="danger"
+                      v-b-modal.refresh-Flow-Modal>
+                      Обновить
+            </b-button>
+          </div>
            </div>
+           
 
         </div>
       
@@ -30,11 +42,7 @@
                       </b-button>
           </div>
 
-          <div class="py-3" v-if=" pickFlow != ''">
-            <b-button variant="danger"
-                      v-b-modal.refresh-Flow-Modal>
-                      Обновить
-            </b-button>
+
             <!-- модальное окно подтверждения сброса данных в потоке -->
             <b-modal id="refresh-Flow-Modal" 
                       title="Очистить поток"
@@ -42,7 +50,7 @@
                       @ok="refreshFlowData">
               <p class="my-4">Вы уверены что хотите очистить список отвечающих?</p>
             </b-modal>
-          </div>
+          
      
 				
 
@@ -85,7 +93,8 @@ export default{
               data: this.editJSON,
               pickFlows: pickFlows
               })
-            this.edit = !this.edit
+            this.edit = !this.edit //Скрываем поле редактирования
+            //Обновляем данные по всем учителям
              await this.$store.dispatch('fetchAllAnswer');
         },
         //Производим инициализацию JSONEditor и загружаем в него данные из выбранного потока
@@ -138,6 +147,9 @@ export default{
 			pickFlow(){
       return this.$store.getters.getPickFlow
     	},
+      newLesson(){
+        return this.$store.getters.getNewLesson
+      }
     },
   }
 
