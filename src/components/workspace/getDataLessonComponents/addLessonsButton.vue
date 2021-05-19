@@ -36,7 +36,7 @@
 
         <!-- button ADD -->
         <div class="flex-fill" >
-          <button class="btn btn-danger " type="button"  @click="parloInThisday = teacherName.dispName + ' ' + dateDay + ' ' + lessonTime" >Добавить</button>
+          <button class="btn btn-danger " type="button"  @click="addNewLesson" >Добавить</button>
         </div>
 
 </div>
@@ -71,14 +71,22 @@ export default{
     },
 
     methods:{
+      //добавляем в стор данные о уроке.
+      addNewLesson: function(){
+        this.parloInThisday = 
+          this.teacherName.dispName + ' ' + 
+          this.dateDay + ' ' + 
+          this.lessonTime
+
+          this.$store.dispatch("updateNewLesson", this.parloInThisday)
+
+      }
 
     },
     
     
     async mounted(){
       await this.$store.dispatch('teachersFetch') //запрашиваем список учетелей
-
-
     },
     watch: {
      
