@@ -49,27 +49,31 @@ export default{
           answered: '',
           formatedAnswers: Array,
           filteredData: "", 
-          compileDataLesson: [],         
+          compileDataLesson: [],
+          answeredArr: [],        
         }
     },
     methods: {
       addAnsweredStudent: async function(){
+        
         let answer = this.answered.split(',') //переводим в массив через запятую
-          
+        this.answeredArr = this.answeredArr.concat(answer)
           //подготавливаем массив убирая все пробелы
           // this.compileDataLesson.push(this.newLesson)
           // this.compileDataLesson.push(this.answered)
-         
-          let test
           
           this.compileDataLesson = {
-            [this.newLesson]: answer  
+            [this.newLesson]: this.answeredArr  
             }
+
+          //this.$store.dispatch('updateNewLesson', this.compileDataLesson)
+
           this.answered = ''
         console.log('====================================');
         console.log(this.compileDataLesson);
         console.log('====================================');
       }
+
     },
     watch: {
       //следим за изменением пропса, и производим форматирование данных в массив
