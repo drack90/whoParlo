@@ -67,8 +67,40 @@ export default {
             //     //проверяем CallBack функцию.
             // ref.on("value", onDataCallback);     
         },
-        updatePickFlowsAction(ctx, picFlow) {
-            ctx.commit("updatePickFlow", picFlow)
+        async updatePickFlowsAction(ctx, data) {
+            if (data.answered[0] === null) {
+                let toastText = {
+                    message: 'Данные еще не загрузились подождите 3 секунды',
+                    title: 'Внимание!',
+                    variant: 'danger'
+                }
+                ctx.commit('updateAnswerToast', toastText)
+            } else if (await data.answered[data.pickFlow] === undefined) {
+                //Производим проверку создана ли ветка в firebase и если нет - создаем заглушку
+
+                //Если у нас при проверке выбранного потока, данных в потоке нет
+                // создаем "заглушку данных"
+                let noDataInLesson = {
+                    "информация": ['ничего нет']
+                }
+                let ref = database.ref('answer/' + data.pickFlow)
+                ref.set(noDataInLesson, (error) => {
+                    if (error) {
+                        return alert(
+                            "Произошла ошибка, отправьте скрин разработчику" +
+                            error);
+                    } else {
+                        let toastText = {
+                            message: 'Ничего нет',
+                            title: 'Обновите страницу что бы продолжить работу',
+                            variant: 'success'
+                        }
+                        ctx.commit('updateAnswerToast', toastText)
+                    }
+                })
+            }
+
+            await ctx.commit("updatePickFlow", data.pickFlow)
         }
 
 

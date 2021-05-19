@@ -25,14 +25,19 @@ import {mapGetters} from 'vuex'
     },
 
   
-    computed: mapGetters(["getFlows", "getPickFlow"]), 
+    computed: mapGetters(["getFlows", "getPickFlow", "getAllAnswer"]), 
 
     async mounted(){
      await this.$store.dispatch('flowsFetch');
     },
     watch: {
-      pickFlow: function(pickFlow){
-        this.$store.dispatch('updatePickFlowsAction', this.pickFlow);
+      pickFlow: async function(){
+        let data
+        //При выборе потока вызываем действие по обновлению данных в потоке
+        this.$store.dispatch('updatePickFlowsAction', data = {
+          pickFlow: await this.pickFlow,
+          answered: await this.getAllAnswer
+        });
       },
         
     },
