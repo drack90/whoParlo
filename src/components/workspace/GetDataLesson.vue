@@ -27,7 +27,7 @@
               id="answer">
               <ul >
                 <!-- v-for="answerStudent in filteredList" :key="answerStudent" -->
-                 <li ></li> 
+                 <li v-for="name in getAnswerStudentsArr" :key="name + Math.random()">{{name}}</li> 
               </ul>
                   </div>
       </div>
@@ -141,6 +141,9 @@ import {mapGetters} from 'vuex'
     getAnswerStudents(){
       return this.$store.getters.getAnswerStudents
     },
+    getAnswerStudentsArr(){
+        return this.$store.getters.getAnswerStudentsArr
+      },
   },
 
   async mounted(){  
