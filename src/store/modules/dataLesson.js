@@ -10,6 +10,7 @@ export default {
         updateAnswerStudent: [],
         toast: null,
         newLesson: null,
+        appendNewLesson: []
 
     },
     getters: {
@@ -37,6 +38,9 @@ export default {
         getNewLesson(state) {
             return state.newLesson
         },
+        getAppendNewLesson(state) {
+            return state.appendNewLesson
+        }
     },
 
     actions: {
@@ -96,6 +100,45 @@ export default {
 
         updateNewLesson(ctx, newLesson) {
             ctx.commit('updateNewLesson', newLesson)
+        },
+        //добавляем новый урок в БД
+        /**
+         * 
+         * @param {*} param0 
+         * @param {answeredArr, pickFlow} answeredArr 
+         */
+        appendNewLesson({ commit, state }, answeredArr) {
+            let appendNewLesson = state.appendNewLesson.concat(answeredArr.answeredArr)
+            if (state.newLesson === null) {
+                let toastText = {
+                    message: 'Данные нового урока не установлены',
+                    title: 'Внимание!',
+                    variant: 'danger'
+                }
+                commit('updateAnswerToast', toastText)
+            } else {
+                let ref = database.ref('answer/' +
+                        answeredArr.pickFlow +
+                        "/" + state.newLesson) //Берем данные о стейте о новом уроке
+                ref.set(appendNewLesson, (error) => {
+                    if (error) {
+                        return alert(error);
+                    } else {
+                        commit('updateAppendNewLesson', appendNewLesson)
+                        let toastText = {
+                            message: 'Данные обновлены',
+                            title: 'Успешно!',
+                            variant: 'success'
+                        }
+                        commit('updateAnswerToast', toastText)
+
+                    }
+                })
+            }
+
+
+
+
         }
 
     },
@@ -120,6 +163,9 @@ export default {
         },
         updateNewLesson(state, newLesson) {
             state.newLesson = newLesson
+        },
+        updateAppendNewLesson(state, appendNewLesson) {
+            state.appendNewLesson = appendNewLesson
         }
 
     },

@@ -58,20 +58,20 @@ export default{
         
         let answer = this.answered.split(',') //переводим в массив через запятую
         this.answeredArr = this.answeredArr.concat(answer)
-          //подготавливаем массив убирая все пробелы
-          // this.compileDataLesson.push(this.newLesson)
-          // this.compileDataLesson.push(this.answered)
-          
-          this.compileDataLesson = {
-            [this.newLesson]: this.answeredArr  
+
+          //убираем пробелы до и после передаваемого значения
+           for (const key in this.answeredArr) {
+            if (Object.hasOwnProperty.call(this.answeredArr, key)) {    
+              this.answeredArr[key] = this.answeredArr[key].trim()
+              console.log(this.answeredArr[key])
             }
-
-          //this.$store.dispatch('updateNewLesson', this.compileDataLesson)
-
+          }
+          
+          this.$store.dispatch('appendNewLesson', {
+            answeredArr: this.answeredArr,
+            pickFlow: this.getPickFlow
+          })
           this.answered = ''
-        console.log('====================================');
-        console.log(this.compileDataLesson);
-        console.log('====================================');
       }
 
     },

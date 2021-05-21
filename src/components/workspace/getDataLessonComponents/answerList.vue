@@ -11,7 +11,8 @@
 							<span v-for="name in dateLesson" :key="name">{{name}}, </span>
             </p>
             <p>
-              <b v-if="newLesson">{{newLesson}}</b>
+              <b v-if="newLesson">{{newLesson}}</b> <br/>
+              <span v-for="name in answerArr" :key="name + Math.random()">{{name}}, </span>
             </p>
           </div>
       <div class="d-flex justify-content-between">
@@ -149,6 +150,9 @@ export default{
     	},
       newLesson(){
         return this.$store.getters.getNewLesson
+      },
+      answerArr(){
+        return this.$store.getters.getAppendNewLesson
       }
     },
   }
