@@ -11,7 +11,9 @@
     <div class="py-2">
       <a href="#" class="btn btn-primary" @click.prevent="getStudentTariffInServer">Обновить</a>
     </div>
-
+    <div>
+      {{test}}
+    </div>
   </div>
   <div class="studentsTariff">
     <ul>
@@ -45,6 +47,7 @@ export default {
       studentlist: null,
       flowName: '',
       getToast: null,
+      test:'',
     }
 },
 
@@ -119,9 +122,30 @@ export default {
         
       })
     },
-  }
 
+    async fetchStudentTarif(){
+      // let flow15Id = "1070883"
+       let key = '2m8rqxECTbgLWe18eQLgfQqGWAXrs4H8VyVJQaY7yxJ2dpPtKbSP1E7Q8SpDwcyPwE3VOXdeo4O9Rvk7HfHs0h7sKAQ1Oz7lKxyNJvdMpz6vHuaeqiYKNI46Yeop2yQI'
+      // let url = `https://magnitalia.getcourse.ru/pl/api/account/groups/${flow15Id}/users?key=${key}`
+      // let group = await fetch(url, {method: 'POST',
+      //                               headers: {
+      //                                 'Content-Type': 'application/json;charset=utf-8'
+      //                               }})
+      // this.test = group
+
+      let exportsURL = `https://magnitalia.getcourse.ru/pl/api/account/exports/2986267?key=${key}`
+
+       let group = await fetch(exportsURL, {method: 'POST',
+                                    headers: {
+                                      'Content-Type': 'application/json;charset=utf-8'
+                                    }})
+      this.test = await group;
+
+    }
+
+  }
 }
+
 </script>
 
 <style scoped>
