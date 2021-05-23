@@ -50,7 +50,9 @@ export default{
           formatedAnswers: Array,
           filteredData: "", 
           compileDataLesson: [],
-          answeredArr: [],        
+          answeredArr: [],
+          userTariffArr: [],   
+          userFlowTariff: '',     
         }
     },
     methods: {
@@ -75,6 +77,7 @@ export default{
       }
 
     },
+
     watch: {
       //следим за изменением пропса, и производим форматирование данных в массив
         compileData(oldcompileData, newcompileData){
@@ -86,7 +89,10 @@ export default{
             }
             //присваеваем результат цикла переменной компонента
             this.formatedAnswers = formatedData
+      
+            
         },
+
         //слудеим за переменной answered которая соединяется с Input
         //при вводе данных в инпут - фильтруем что бы ввод происходил > 3 символов
         //после чего отправляем данные в переменную dispAnswered
@@ -100,8 +106,31 @@ export default{
               }) 
               this.$store.dispatch('updateAnswerStudentsArrAction', thisStudentAnswer)
           }
-               
+          //получаем IDdoc выбранного массива
+          
+          // if(this.answeredArr != null && this.test[this.test.length -1]){
+            
+          // }
+    
       },
+      pickFlow(ondpickFlow, newpickFlow){
+          let userTariff = []
+            //получаем номур потока по iIDdoc
+           this.getFlows.forEach(element => {
+            if(element.id === this.getPickFlow){
+              this.userFlowTariff = element.IDdoc
+            }
+          });
+                let data = this.getStudentsTariff[this.userFlowTariff]
+                let arr = Object.keys(data) // получаем массив с ключами 
+              //получаем массив с 
+                for (let index = 0; index < arr.length; index++) {
+                  const element = arr[index];
+                  arr[index] = element + " " + data[element]
+                }
+
+                this.userTariffArr = arr
+      }
     },
 
     computed:{
@@ -115,9 +144,15 @@ export default{
       newLesson(){
         return this.$store.getters.getNewLesson
       },
-      	pickFlow(){
+      pickFlow(){
       return this.$store.getters.getPickFlow
-    	},
+    	},  
+      getStudentsTariff(){
+        return this.$store.getters.getStudentsTariff
+      },
+      getFlows(){
+        return this.$store.getters.getFlows
+      }
       
     },
   }

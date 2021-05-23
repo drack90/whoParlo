@@ -153,7 +153,8 @@ export default{
       },
       answerArr(){
         return this.$store.getters.getAppendNewLesson
-      }
+      },
+    
     },
   }
 
