@@ -35,6 +35,10 @@
         <label for="tarif" class="form-label" >Тариф</label>
         <div  class="info-block" 
               id="tarif">
+              <ul >
+                 <li v-for="name in getStudentTariff" :key="name + Math.random()">{{name}}</li> 
+              </ul>
+                  </div>
                   </div>
       </div>
       <div class="flex-fill">
@@ -46,14 +50,7 @@
                   </ul>
                   </div>
       </div>
-      </div>
-
-        <button class="btn btn-primary" @click="setcompileData"> add</button>
-
-        
 </div>
-  
-
 
 </template>
 
@@ -114,36 +111,21 @@ import {mapGetters} from 'vuex'
     
   computed: {
 
-    getFlows (){
-      return this.$store.getters.getFlows
+    getPickFlow(){
+      return this.$store.getters.getPickFlow
     },
     getStudentsTariff(){
       return this.$store.getters.getStudentsTariff
     },
-    getPickFlow(){
-      return this.$store.getters.getPickFlow
-    },
-    getSelectFlow(){
-      return this.$store.getters.getSelectFlow
-    },
     getBonus(){
       return this.$store.getters.getBonus
     },
-    getAllAnswer(){
-      return this.$store.getters.getAllAnswer
-    },
-    getAnswerData(){
-      return this.$store.getters.getAnswerData
-    },
-    getAnswerStudent(){
-      return this.$store.getters.getAnswerStudent
-    },
-    getAnswerStudents(){
-      return this.$store.getters.getAnswerStudents
-    },
     getAnswerStudentsArr(){
-        return this.$store.getters.getAnswerStudentsArr
-      },
+      return this.$store.getters.getAnswerStudentsArr
+    },
+    getStudentTariff(){
+      return this.$store.getters.getStudentTariff
+    },
   },
 
   async mounted(){  

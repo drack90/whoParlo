@@ -25,18 +25,15 @@ export default{
 
 	computed: {
 		getPickFlow(){
-      return this.$store.getters.getPickFlow
-    },
-		getFlows (){
-      return this.$store.getters.getFlows
-    },
+      		return this.$store.getters.getPickFlow
+    	}
 	},
 
 	mounted(){
-			let date = new Date(); //получаем сегодняшнюю дату
-      let options = { weekday: 'short'}
-      let convertData = new Intl.DateTimeFormat('en-US', options).format(date) ;
-			this.today = convertData;
+		let date = new Date(); //получаем сегодняшнюю дату
+      	let options = { weekday: 'short'}
+      	let convertData = new Intl.DateTimeFormat('en-US', options).format(date) ;
+		this.today = convertData;
 	},
 
 	watch: {

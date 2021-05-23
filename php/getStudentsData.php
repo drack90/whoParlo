@@ -30,3 +30,16 @@ foreach ($array as $value){
 }
 $array_data = json_encode($array_data);
 return $array_data;
+
+
+//https://magnitalia.getcourse.ru/pl/api/account/groups?key=2m8rqxECTbgLWe18eQLgfQqGWAXrs4H8VyVJQaY7yxJ2dpPtKbSP1E7Q8SpDwcyPwE3VOXdeo4O9Rvk7HfHs0h7sKAQ1Oz7lKxyNJvdMpz6vHuaeqiYKNI46Yeop2yQI
+
+//! {"id":"1070883","name":"[онлайн-встречи] поток 15"} 
+//https://magnitalia.getcourse.ru/pl/api/account/groups/1070879/users?key=2m8rqxECTbgLWe18eQLgfQqGWAXrs4H8VyVJQaY7yxJ2dpPtKbSP1E7Q8SpDwcyPwE3VOXdeo4O9Rvk7HfHs0h7sKAQ1Oz7lKxyNJvdMpz6vHuaeqiYKNI46Yeop2yQI&status=active
+//{"success":true,"info":{"export_id":3003140},"error_message":"","error":false}
+//https://magnitalia.getcourse.ru/pl/api/account/exports/3003140?key=2m8rqxECTbgLWe18eQLgfQqGWAXrs4H8VyVJQaY7yxJ2dpPtKbSP1E7Q8SpDwcyPwE3VOXdeo4O9Rvk7HfHs0h7sKAQ1Oz7lKxyNJvdMpz6vHuaeqiYKNI46Yeop2yQI
+
+//В ответ прилетает JSON (CVS)
+
+
+//! {"id":"1070879","name":"[онлайн-встречи] доп доступ для Alfa и Ferrari"}

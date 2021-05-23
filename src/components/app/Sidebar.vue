@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-3">
+    <div class="containet-xl-lg col-3">
       <b-list-group v-model="pickFlow">
         <b-list-group-item v-for="flow in getFlows" 
                            href="#" 

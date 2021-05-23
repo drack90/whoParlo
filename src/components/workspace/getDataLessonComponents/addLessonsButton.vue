@@ -80,6 +80,9 @@ export default{
 
           this.$store.dispatch("updateNewLesson", this.parloInThisday)
 
+          this.teacherName = ''
+          this.dateDay = ''
+          this.lessonTime = ''
       }
 
     },
@@ -89,13 +92,19 @@ export default{
       await this.$store.dispatch('teachersFetch') //запрашиваем список учетелей
     },
     watch: {
-     
+      getPickFlow(newgetPickFlow, oldgetPickFlow){
+        this.$store.dispatch("updateNewLesson")
+
+     }
     },
     
 
     computed:{
       getTeachers(){
         return this.$store.getters.getTeachers
+      },
+      getPickFlow(){
+        return this.$store.getters.getPickFlow
       },
     },
   }

@@ -10,7 +10,8 @@ export default {
         updateAnswerStudent: [],
         toast: null,
         newLesson: null,
-        appendNewLesson: []
+        appendNewLesson: [],
+        studentTariff: [],
 
     },
     getters: {
@@ -40,6 +41,9 @@ export default {
         },
         getAppendNewLesson(state) {
             return state.appendNewLesson
+        },
+        getStudentTariff(state) {
+            return state.studentTariff
         }
     },
 
@@ -98,8 +102,11 @@ export default {
             ctx.commit('updateAnswerStudentsArr', answeredArr)
         },
 
-        updateNewLesson(ctx, newLesson) {
+        updateNewLesson(ctx, newLesson = null) {
             ctx.commit('updateNewLesson', newLesson)
+        },
+        updateStudentTariff(ctx, studentTariffArr) {
+            ctx.commit('updateStudentTariff', studentTariffArr)
         },
         //добавляем новый урок в БД
         /**
@@ -107,8 +114,8 @@ export default {
          * @param {*} param0 
          * @param {answeredArr, pickFlow} answeredArr 
          */
-        appendNewLesson({ commit, state }, answeredArr) {
-            let appendNewLesson = state.appendNewLesson.concat(answeredArr.answeredArr)
+        appendNewLesson({ commit, state, dispatch }, answeredArr) {
+            let appendNewLesson = state.allAnswer[answeredArr.pickFlow][state.newLesson].concat(answeredArr.answeredArr)
             if (state.newLesson === null) {
                 let toastText = {
                     message: 'Данные нового урока не установлены',
@@ -124,7 +131,8 @@ export default {
                     if (error) {
                         return alert(error);
                     } else {
-                        commit('updateAppendNewLesson', appendNewLesson)
+                        dispatch('fetchAllAnswer')
+                            //commit('updateAppendNewLesson', appendNewLesson)
                         let toastText = {
                             message: 'Данные обновлены',
                             title: 'Успешно!',
@@ -166,6 +174,9 @@ export default {
         },
         updateAppendNewLesson(state, appendNewLesson) {
             state.appendNewLesson = appendNewLesson
+        },
+        updateStudentTariff(state, studentTariffArr) {
+            state.studentTariff = studentTariffArr
         }
 
     },

@@ -67,6 +67,27 @@ export default {
             //     //проверяем CallBack функцию.
             // ref.on("value", onDataCallback);     
         },
+
+        refreshFlowData(ctx, pickFlow) {
+            const ref = database.ref('answer/' + pickFlow)
+            let noDataInLesson = {
+                "информация": ['ничего нет']
+            }
+            ref.set(noDataInLesson, (error) => {
+                if (error) {
+                    return alert(
+                        "Произошла ошибка, отправьте скрин разработчику" +
+                        error);
+                } else {
+                    let toastText = {
+                        message: 'Данные по потоку обновлены, обновите страницу!',
+                        title: 'Внимание',
+                        variant: 'success'
+                    }
+                    ctx.commit('updateAnswerToast', toastText)
+                }
+            })
+        },
         async updatePickFlowsAction(ctx, data) {
             if (data.answered[0] === null) {
                 let toastText = {
@@ -101,7 +122,9 @@ export default {
             }
 
             await ctx.commit("updatePickFlow", data.pickFlow)
-        }
+        },
+
+
 
 
 

@@ -8,7 +8,7 @@
             >
 						<p v-for="(dateLesson, index) in getAllAnswer[pickFlow]" :key="index">
 							<b>{{index}}:</b> <br>
-							<span v-for="name in dateLesson" :key="name">{{name}}, </span>
+							<span v-for="name in dateLesson" :key="name + Math.random()">{{name}}, </span>
             </p>
             <p>
               <b v-if="newLesson">{{newLesson}}</b> <br/>
@@ -121,7 +121,7 @@ export default{
         },
 
         async refreshFlowData(){
-            alert('модальное окно закрыто')
+            this.$store.dispatch('refreshFlowData', this.pickFlow)
         }
     },
     watch:{
@@ -130,7 +130,7 @@ export default{
             this.$bvToast.toast(`${this.getAnswerToast.message}`,{
             title: this.getAnswerToast.title,
             variant: this.getAnswerToast.variant,
-            autoHideDelay: 1000,
+            autoHideDelay: 2000,
             solid: true,
             toaster: "b-toaster-bottom-right",
           })

@@ -73,6 +73,7 @@ export default{
             answeredArr: this.answeredArr,
             pickFlow: this.getPickFlow
           })
+          this.answeredArr = []
           this.answered = ''
       }
 
@@ -106,11 +107,15 @@ export default{
               }) 
               this.$store.dispatch('updateAnswerStudentsArrAction', thisStudentAnswer)
           }
-          //получаем IDdoc выбранного массива
-          
-          // if(this.answeredArr != null && this.test[this.test.length -1]){
-            
-          // }
+
+          //фильтрация тарифов отвечающих
+          if (this.test[this.test.length -1].length > 2) {
+            let answerStudentTariff = this.userTariffArr.filter(item => {
+              return item.toLowerCase().includes(this.test[this.test.length -1].toLowerCase())
+              }) 
+              this.$store.dispatch('updateStudentTariff', answerStudentTariff)
+          }
+
     
       },
       pickFlow(ondpickFlow, newpickFlow){
@@ -122,7 +127,8 @@ export default{
             }
           });
                 let data = this.getStudentsTariff[this.userFlowTariff]
-                let arr = Object.keys(data) // получаем массив с ключами 
+               if(data){
+                 let arr = Object.keys(data) // получаем массив с ключами 
               //получаем массив с 
                 for (let index = 0; index < arr.length; index++) {
                   const element = arr[index];
@@ -130,6 +136,10 @@ export default{
                 }
 
                 this.userTariffArr = arr
+               }else{
+                 console.log("не могу получить даные о Тарифах");
+               }
+                
       }
     },
 
