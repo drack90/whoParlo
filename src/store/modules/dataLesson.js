@@ -94,8 +94,8 @@ export default {
 
         },
 
-        updateToast(ctx) {
-            ctx.commit('updateAnswerToast', null)
+        updateToast(ctx, data = null) {
+            ctx.commit('updateAnswerToast', data)
         },
 
         updateAnswerStudentsArrAction(ctx, answeredArr) {
@@ -115,7 +115,15 @@ export default {
          * @param {answeredArr, pickFlow} answeredArr 
          */
         appendNewLesson({ commit, state, dispatch }, answeredArr) {
-            let appendNewLesson = state.allAnswer[answeredArr.pickFlow][state.newLesson].concat(answeredArr.answeredArr)
+            console.log(Array.isArray(state.allAnswer[answeredArr.pickFlow]))
+            console.log(state.allAnswer);
+            console.log(Array.isArray(answeredArr.answeredArr));
+            console.log(state.newLesson);
+            //TODO: Исправить, перестала работать, не срабатывает concat, т.к. массив пытаемся собрать из объектов? 
+            state.allAnswer[answeredArr.pickFlow][state.newLesson] = answeredArr.answeredArr
+            let appendNewLesson = state.allAnswer[answeredArr.pickFlow][state.newLesson]
+
+
             if (state.newLesson === null) {
                 let toastText = {
                     message: 'Данные нового урока не установлены',

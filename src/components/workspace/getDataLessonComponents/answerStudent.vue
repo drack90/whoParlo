@@ -57,12 +57,13 @@ export default{
     },
     methods: {
       addAnsweredStudent: async function(){
-        
-        let answer = this.answered.split(',') //переводим в массив через запятую
-        this.answeredArr = this.answeredArr.concat(answer)
+        if (this.newLesson != null){
+          let answer = this.answered.split(',') //переводим в массив через запятую
+          
+          this.answeredArr = this.answeredArr.concat(answer)
 
           //убираем пробелы до и после передаваемого значения
-           for (const key in this.answeredArr) {
+          for (const key in this.answeredArr) {
             if (Object.hasOwnProperty.call(this.answeredArr, key)) {    
               this.answeredArr[key] = this.answeredArr[key].trim()
               console.log(this.answeredArr[key])
@@ -75,6 +76,15 @@ export default{
           })
           this.answeredArr = []
           this.answered = ''
+        }else{
+          let toastText = {
+            message: 'Требуется сперва выбрать урок!',
+            title: 'Внимание!',
+            variant: 'danger'
+          }
+          this.$store.dispatch('updateToast', toastText)
+        }
+        
       }
 
     },
